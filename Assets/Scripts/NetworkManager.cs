@@ -43,8 +43,11 @@ public class NetworkManager : MonoBehaviour {
 
 	void SpawnPlayer () {
 		SpawnPoint spawnPoint = spawnPoints [Random.Range(0, spawnPoints.Length)];
-		PhotonNetwork.Instantiate ("Player Controller",
-		           spawnPoint.transform.position, spawnPoint.transform.rotation, 0);
+		GameObject myPlayer = PhotonNetwork.Instantiate ("Player Controller",
+		           spawnPoint.transform.position, spawnPoint.transform.rotation, 0) as GameObject;
 		worldCamera.enabled = false;
+		myPlayer.GetComponent <MouseLook> ().enabled = true;
+		((MonoBehaviour) myPlayer.GetComponent("FPSInputController")).enabled = true;
+		myPlayer.GetComponentInChildren <Camera> ().enabled = true;
 	}
 }
