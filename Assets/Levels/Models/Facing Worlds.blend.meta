@@ -6,17 +6,29 @@ ModelImporter:
     100000: Cube
     100002: Cube_001
     100004: //RootNode
+    100006: Grond
+    100008: Towers
     400000: Cube
     400002: Cube_001
     400004: //RootNode
+    400006: Grond
+    400008: Towers
     2300000: Cube
     2300002: Cube_001
+    2300004: Grond
+    2300006: Towers
     3300000: Cube
     3300002: Cube_001
+    3300004: Grond
+    3300006: Towers
     4300000: Cube_001
     4300002: Cube
+    4300004: Towers
+    4300006: Grond
     6400000: Cube
     6400002: Cube_001
+    6400004: Grond
+    6400006: Towers
     7400000: Default Take
     9500000: //RootNode
   materials:

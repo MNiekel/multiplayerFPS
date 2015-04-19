@@ -48,6 +48,7 @@ public class NetworkManager : MonoBehaviour {
 		worldCamera.enabled = false;
 		myPlayer.GetComponent <MouseLook> ().enabled = true;
 		((MonoBehaviour) myPlayer.GetComponent("FPSInputController")).enabled = true;
+		((MonoBehaviour) myPlayer.GetComponent("CharacterMotor")).enabled = true;
 		myPlayer.GetComponentInChildren <Camera> ().enabled = true;
 	}
 }
