@@ -3,7 +3,7 @@ using System.Collections;
 
 public class NetworkManager : MonoBehaviour {
 
-	public Camera worldCamera;
+	public GameObject worldCamera;
 
 	private SpawnPoint[] spawnPoints;
 
@@ -45,7 +45,7 @@ public class NetworkManager : MonoBehaviour {
 		SpawnPoint spawnPoint = spawnPoints [Random.Range(0, spawnPoints.Length)];
 		GameObject myPlayer = PhotonNetwork.Instantiate ("Player Controller",
 		           spawnPoint.transform.position, spawnPoint.transform.rotation, 0) as GameObject;
-		worldCamera.enabled = false;
+		worldCamera.SetActive (false);
 		myPlayer.GetComponent <MouseLook> ().enabled = true;
 		((MonoBehaviour) myPlayer.GetComponent("FPSInputController")).enabled = true;
 		((MonoBehaviour) myPlayer.GetComponent("CharacterMotor")).enabled = true;

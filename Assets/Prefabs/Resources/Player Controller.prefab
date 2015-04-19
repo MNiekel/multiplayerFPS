@@ -30,6 +30,7 @@ GameObject:
   - 114: {fileID: 11494784}
   - 114: {fileID: 11494786}
   - 114: {fileID: 11463998}
+  - 114: {fileID: 11411170}
   m_Layer: 0
   m_Name: Player Controller
   m_TagString: Untagged
@@ -160,7 +161,7 @@ AudioListener:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 194788}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!92 &9294788
 Behaviour:
   m_ObjectHideFlags: 1
@@ -168,6 +169,18 @@ Behaviour:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 194788}
   m_Enabled: 1
+--- !u!114 &11411170
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 194786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6195e8a2c083c44a08ebbe9f3db4dcdb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  smoothing: .100000001
 --- !u!114 &11463998
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -188,7 +201,7 @@ MonoBehaviour:
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
   ObservedComponents:
-  - {fileID: 494786}
+  - {fileID: 11411170}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
