@@ -6,6 +6,7 @@ public class NetworkManager : MonoBehaviour {
 	public GameObject worldCamera;
 
 	private SpawnPoint[] spawnPoints;
+	public bool offlineMode = false;
 
 	// Use this for initialization
 	void Start () {
@@ -14,11 +15,17 @@ public class NetworkManager : MonoBehaviour {
 			Debug.LogError ("No Spawnpoints!");
 		}
 		Connect ();
+	
 	}
 
 	void Connect () {
+		if (!offlineMode) {
+			PhotonNetwork.ConnectUsingSettings ("MultiplayerFPS v0.0.1");
+		} else {
+			PhotonNetwork.offlineMode = true;
+			OnJoinedLobby ();
+		}
 		//PhotonNetwork.offlineMode = true;
-		PhotonNetwork.ConnectUsingSettings ("MultiplayerFPS v0.0.1");
 	}
 
 	void OnGUI () {
@@ -48,6 +55,7 @@ public class NetworkManager : MonoBehaviour {
 		worldCamera.SetActive (false);
 		myPlayer.GetComponent <MouseLook> ().enabled = true;
 		myPlayer.GetComponent <PlayerMovement> ().enabled = true;
+		myPlayer.GetComponent <PlayerShooting> ().enabled = true;
 		//((MonoBehaviour) myPlayer.GetComponent("FPSInputController")).enabled = true;
 		//((MonoBehaviour) myPlayer.GetComponent("CharacterMotor")).enabled = true;
 		myPlayer.GetComponentInChildren <Camera> ().enabled = true;
