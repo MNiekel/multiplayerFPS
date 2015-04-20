@@ -47,8 +47,9 @@ public class NetworkManager : MonoBehaviour {
 		           spawnPoint.transform.position, spawnPoint.transform.rotation, 0) as GameObject;
 		worldCamera.SetActive (false);
 		myPlayer.GetComponent <MouseLook> ().enabled = true;
-		((MonoBehaviour) myPlayer.GetComponent("FPSInputController")).enabled = true;
-		((MonoBehaviour) myPlayer.GetComponent("CharacterMotor")).enabled = true;
+		myPlayer.GetComponent <PlayerMovement> ().enabled = true;
+		//((MonoBehaviour) myPlayer.GetComponent("FPSInputController")).enabled = true;
+		//((MonoBehaviour) myPlayer.GetComponent("CharacterMotor")).enabled = true;
 		myPlayer.GetComponentInChildren <Camera> ().enabled = true;
 	}
 }
