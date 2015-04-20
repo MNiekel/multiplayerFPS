@@ -45,6 +45,50 @@ BlendTree:
   m_MaxThreshold: 1
   m_UseAutomaticThresholds: 1
   m_BlendType: 0
+--- !u!1101 &110101252
+Transition:
+  serializedVersion: 2
+  m_ObjectHideFlags: 3
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 
+  m_SrcState: {fileID: 110243084}
+  m_DstState: {fileID: 110278618}
+  m_TransitionDuration: .0597456098
+  m_TransitionOffset: 0
+  m_Conditions:
+  - m_ConditionMode: 2
+    m_ConditionEvent: Jump
+    m_EventTreshold: 0
+    m_ExitTime: .875
+  - m_ConditionMode: 4
+    m_ConditionEvent: Speed
+    m_EventTreshold: .100000001
+    m_ExitTime: .875
+  m_Atomic: 1
+  m_Solo: 0
+  m_Mute: 0
+  m_CanTransitionToSelf: 0
+--- !u!1101 &110111702
+Transition:
+  serializedVersion: 2
+  m_ObjectHideFlags: 3
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 
+  m_SrcState: {fileID: 110288879}
+  m_DstState: {fileID: 110243084}
+  m_TransitionDuration: .357142836
+  m_TransitionOffset: 0
+  m_Conditions:
+  - m_ConditionMode: 1
+    m_ConditionEvent: Jump
+    m_EventTreshold: 0
+    m_ExitTime: .642857194
+  m_Atomic: 1
+  m_Solo: 0
+  m_Mute: 0
+  m_CanTransitionToSelf: 0
 --- !u!1101 &110119238
 Transition:
   serializedVersion: 2
@@ -105,6 +149,50 @@ Transition:
   m_Solo: 0
   m_Mute: 0
   m_CanTransitionToSelf: 0
+--- !u!1101 &110180692
+Transition:
+  serializedVersion: 2
+  m_ObjectHideFlags: 3
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 
+  m_SrcState: {fileID: 110243084}
+  m_DstState: {fileID: 110288879}
+  m_TransitionDuration: 7.50000048
+  m_TransitionOffset: 0
+  m_Conditions:
+  - m_ConditionMode: 2
+    m_ConditionEvent: Jump
+    m_EventTreshold: 0
+    m_ExitTime: 0
+  - m_ConditionMode: 3
+    m_ConditionEvent: Speed
+    m_EventTreshold: .100000001
+    m_ExitTime: 0
+  m_Atomic: 1
+  m_Solo: 0
+  m_Mute: 0
+  m_CanTransitionToSelf: 0
+--- !u!1101 &110191272
+Transition:
+  serializedVersion: 2
+  m_ObjectHideFlags: 3
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 
+  m_SrcState: {fileID: 110278618}
+  m_DstState: {fileID: 110243084}
+  m_TransitionDuration: .027777778
+  m_TransitionOffset: 0
+  m_Conditions:
+  - m_ConditionMode: 1
+    m_ConditionEvent: Jump
+    m_EventTreshold: 0
+    m_ExitTime: .972222209
+  m_Atomic: 1
+  m_Solo: 0
+  m_Mute: 0
+  m_CanTransitionToSelf: 0
 --- !u!1102 &110200000
 State:
   m_ObjectHideFlags: 3
@@ -117,6 +205,21 @@ State:
   - {fileID: 7400000, guid: 20680b9181af7d140a9426f1c3ec489f, type: 3}
   m_ParentStateMachine: {fileID: 110700000}
   m_Position: {x: -180, y: -180, z: 0}
+  m_IKOnFeet: 0
+  m_Mirror: 0
+  m_Tag: 
+--- !u!1102 &110243084
+State:
+  m_ObjectHideFlags: 3
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: MIL2_M3_W2_Crouch_Idle
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Motions:
+  - {fileID: 7400002, guid: 7dd00721ac52a884cbc8909a115f4ddf, type: 3}
+  m_ParentStateMachine: {fileID: 110700000}
+  m_Position: {x: -180, y: -60, z: 0}
   m_IKOnFeet: 0
   m_Mirror: 0
   m_Tag: 
@@ -194,9 +297,15 @@ StateMachine:
   - {fileID: 110290600}
   - {fileID: 110278618}
   - {fileID: 110254590}
+  - {fileID: 110243084}
   m_ChildStateMachine: []
   m_ChildStateMachinePosition: []
   m_OrderedTransitions:
+    data:
+      first: {fileID: 110243084}
+      second:
+      - {fileID: 110101252}
+      - {fileID: 110180692}
     data:
       first: {fileID: 0}
       second: []
@@ -204,6 +313,7 @@ StateMachine:
       first: {fileID: 110278618}
       second:
       - {fileID: 110152744}
+      - {fileID: 110191272}
     data:
       first: {fileID: 110200000}
       second: []
@@ -211,6 +321,7 @@ StateMachine:
       first: {fileID: 110288879}
       second:
       - {fileID: 110119238}
+      - {fileID: 110111702}
     data:
       first: {fileID: 110290600}
       second: []
@@ -218,5 +329,5 @@ StateMachine:
       first: {fileID: 110254590}
       second: []
   m_MotionSetCount: 1
-  m_AnyStatePosition: {x: 50, y: 20, z: 0}
+  m_AnyStatePosition: {x: 48, y: 24, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}

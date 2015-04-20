@@ -25,6 +25,7 @@ public class PlayerMovement : MonoBehaviour {
 		direction = transform.rotation * new Vector3 (Input.GetAxis ("Horizontal"),
 		                         0,
 		                         Input.GetAxis ("Vertical"));
+
 		if (direction.magnitude > 1) {
 			direction = direction.normalized;
 		}
@@ -32,14 +33,13 @@ public class PlayerMovement : MonoBehaviour {
 		anim.SetFloat ("Speed", direction.magnitude);
 
 		if (cc.isGrounded) {
-			//anim.SetBool ("Jump", false);
+			anim.SetBool ("Jump", false);
 			if (Input.GetButton ("Jump")) {
 				verticalVelocity = jumpSpeed;
+				anim.SetBool ("Jump", true);
 			} else {
 				verticalVelocity = 0;
 			}
-		} else {
-			//anim.SetBool ("Jump", true);
 		}
 	}
 
