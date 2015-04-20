@@ -7,10 +7,11 @@ public class NetworkCharacter : Photon.MonoBehaviour {
 	Quaternion realRotation = Quaternion.identity;
 	
 	public float smoothing = 0.1f;
+	private Animator anim;
 	
 	// Use this for initialization
 	void Start () {
-		
+		anim = GetComponent<Animator>();
 	}
 	
 	// Update is called once per frame
@@ -28,10 +29,12 @@ public class NetworkCharacter : Photon.MonoBehaviour {
 			// This is local player, we need to send our position and rotation
 			stream.SendNext(transform.position);
 			stream.SendNext(transform.rotation);
+			stream.SendNext(anim.GetFloat("Speed"));
 		} else {
 			// This is remote player, we need to receive position and rotation and update our version of that player
 			realPosition = (Vector3) stream.ReceiveNext ();
 			realRotation = (Quaternion) stream.ReceiveNext ();
+			anim.SetFloat("Speed", (float) stream.ReceiveNext());
 		}
 	}
 }
