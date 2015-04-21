@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class NetworkManager : MonoBehaviour {
 
@@ -7,6 +8,8 @@ public class NetworkManager : MonoBehaviour {
 
 	private SpawnPoint[] spawnPoints;
 	private bool connecting = false;
+	private List<string> messages;
+	private int maxNumberOfMessages = 5;
 
 	// Use this for initialization
 	void Start () {
@@ -15,6 +18,22 @@ public class NetworkManager : MonoBehaviour {
 			Debug.LogError ("No Spawnpoints!");
 		}
 		PhotonNetwork.player.name = PlayerPrefs.GetString ("USERNAME", "Sangatsuko");
+
+		messages = new List<string> (maxNumberOfMessages);
+	}
+
+
+	public void AddChatMessage (string message) {
+		GetComponent<PhotonView> ().RPC ("AddChatMessage_RPC", PhotonTargets.AllBuffered, message);
+	}
+
+	[RPC]
+	private void AddChatMessage_RPC (string message) {
+		while (messages.Count >= maxNumberOfMessages) {
+			messages.RemoveAt (0);
+		}
+
+		messages.Add (message);
 	}
 
 	void OnDestroy () {
@@ -32,10 +51,17 @@ public class NetworkManager : MonoBehaviour {
 
 		if (!PhotonNetwork.connected && !connecting) {
 
+			GUILayout.BeginArea(new Rect(0f, 0f, Screen.width, Screen.height));
+			GUILayout.BeginHorizontal();
+			GUILayout.FlexibleSpace ();
+			GUILayout.BeginVertical ();
+			GUILayout.FlexibleSpace ();
+
 			GUILayout.BeginHorizontal ();
 			GUILayout.Label ("Your username: ");
 			PhotonNetwork.player.name = GUILayout.TextField (PhotonNetwork.player.name, GUILayout.ExpandWidth(false));
 			GUILayout.EndHorizontal ();
+
 
 			if (GUILayout.Button ("Single player")) {
 				connecting = true;
@@ -47,6 +73,23 @@ public class NetworkManager : MonoBehaviour {
 				connecting = true;
 				Connect ();
 			}
+
+			GUILayout.FlexibleSpace ();
+			GUILayout.EndVertical ();
+			GUILayout.FlexibleSpace ();
+			GUILayout.EndHorizontal ();
+			GUILayout.EndArea();
+		}
+
+		if (PhotonNetwork.connected && !connecting) {
+			GUILayout.BeginArea(new Rect(0f, 0f, Screen.width, Screen.height));
+			GUILayout.BeginVertical ();
+			GUILayout.FlexibleSpace ();
+			foreach (string message in messages) {
+				GUILayout.Label (message);
+			}
+			GUILayout.EndVertical ();
+			GUILayout.EndArea();
 		}
 
 	}
@@ -63,6 +106,8 @@ public class NetworkManager : MonoBehaviour {
 
 	void OnJoinedRoom () {
 		Debug.Log ("Joined room");
+		connecting = false;
+		AddChatMessage (PhotonNetwork.player.name + " has entered the room");
 
 		SpawnPlayer ();
 	}
@@ -72,11 +117,15 @@ public class NetworkManager : MonoBehaviour {
 		GameObject myPlayer = PhotonNetwork.Instantiate ("Player Controller",
 		           spawnPoint.transform.position, spawnPoint.transform.rotation, 0) as GameObject;
 		worldCamera.SetActive (false);
-		myPlayer.GetComponent <MouseLook> ().enabled = true;
+		//myPlayer.GetComponent <MouseLook> ().enabled = true;
 		myPlayer.GetComponent <PlayerMovement> ().enabled = true;
 		myPlayer.GetComponent <PlayerShooting> ().enabled = true;
-		//((MonoBehaviour) myPlayer.GetComponent("FPSInputController")).enabled = true;
-		//((MonoBehaviour) myPlayer.GetComponent("CharacterMotor")).enabled = true;
 		myPlayer.GetComponentInChildren <Camera> ().enabled = true;
+		myPlayer.GetComponentInChildren <AudioListener> ().enabled = true;
+		MouseLook[] mouseScriptList = myPlayer.GetComponentsInChildren <MouseLook> ();
+		foreach (MouseLook script in mouseScriptList) {
+			script.enabled = true;
+		}
+		//myPlayer.GetComponentInChildren <MouseLook> ().enabled = true;
 	}
 }

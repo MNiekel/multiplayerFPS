@@ -28,10 +28,6 @@ public class Health : MonoBehaviour {
 
 	public void Die () {
 
-		//Debug.Log ("PhotonNetwork ID = " + GetComponent <PhotonView> ().instantiationId);
-		//Debug.Log ("Name = " + this.name);
-		//Debug.Log ("PhotonNetwork isMaster = " + PhotonNetwork.isMasterClient);
-
 		if (GetComponent <PhotonView> ().instantiationId == 0) {
 			Destroy (gameObject);
 		} else {

@@ -34,4 +34,7 @@ MonoBehaviour:
   - RequestForPickupTimes
   - TaggedPlayer
   - TakeDamage
+  - AddChatMessage_RPC
+  - BulletFX
+  - ShootingFX
   DisableAutoOpenWizard: 0
