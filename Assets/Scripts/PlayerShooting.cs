@@ -5,6 +5,7 @@ using System.Linq;
 public class PlayerShooting : MonoBehaviour {
 
 	public float fireRate = 0.5f;
+	public float damage = 50f;
 
 	private float cooldown = 0f;
 
@@ -26,8 +27,8 @@ public class PlayerShooting : MonoBehaviour {
 		if (cooldown > 0) {
 			return;
 		}
-
 		Ray ray = new Ray (Camera.main.transform.position, Camera.main.transform.forward);
+
 		RaycastHit hit;
 
 		RaycastHit [] hits = Physics.RaycastAll (ray).OrderBy(h=>h.distance).ToArray();
@@ -46,7 +47,8 @@ public class PlayerShooting : MonoBehaviour {
 		Debug.Log ("We hit: " + hit.collider.name);
 		Health healthOfHit = hit.collider.GetComponent<Health> () as Health;
 		if (healthOfHit != null) {
-			healthOfHit.TakeDamage (5);
+			healthOfHit.GetComponent <PhotonView> ().RPC ("TakeDamage", PhotonTargets.All, damage);
+			//healthOfHit.TakeDamage (5);
 		}
 	}
 	

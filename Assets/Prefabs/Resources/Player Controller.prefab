@@ -1324,6 +1324,7 @@ GameObject:
   - 114: {fileID: 11464010}
   - 114: {fileID: 11463872}
   - 114: {fileID: 11453262}
+  - 114: {fileID: 11475262}
   m_Layer: 0
   m_Name: Player Controller
   m_TagString: Untagged
@@ -2633,6 +2634,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d38fecddea13484e8844691be4b1d75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fireRate: .5
+  damage: 50
 --- !u!114 &11463872
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2659,7 +2662,7 @@ MonoBehaviour:
   group: 0
   prefixBackup: -1
   observed: {fileID: 0}
-  synchronization: 3
+  synchronization: 1
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
@@ -2687,6 +2690,18 @@ MonoBehaviour:
   maximumX: 360
   minimumY: -60
   maximumY: 60
+--- !u!114 &11475262
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 194786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 671c19342ee614a99922c5e16dfe53bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitPoints: 100
 --- !u!114 &11494788
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -6,7 +6,7 @@ public class NetworkManager : MonoBehaviour {
 	public GameObject worldCamera;
 
 	private SpawnPoint[] spawnPoints;
-	public bool offlineMode = false;
+	private bool connecting = false;
 
 	// Use this for initialization
 	void Start () {
@@ -14,22 +14,41 @@ public class NetworkManager : MonoBehaviour {
 		if (spawnPoints == null) {
 			Debug.LogError ("No Spawnpoints!");
 		}
-		Connect ();
-	
+		PhotonNetwork.player.name = PlayerPrefs.GetString ("USERNAME", "Sangatsuko");
+	}
+
+	void OnDestroy () {
+		PlayerPrefs.SetString ("USERNAME", PhotonNetwork.player.name);
 	}
 
 	void Connect () {
-		if (!offlineMode) {
-			PhotonNetwork.ConnectUsingSettings ("MultiplayerFPS v0.0.1");
-		} else {
-			PhotonNetwork.offlineMode = true;
-			OnJoinedLobby ();
-		}
-		//PhotonNetwork.offlineMode = true;
+		PhotonNetwork.ConnectUsingSettings ("MultiplayerFPS v0.0.1");
 	}
 
 	void OnGUI () {
 		GUILayout.Label (PhotonNetwork.connectionStateDetailed.ToString ());
+
+
+
+		if (!PhotonNetwork.connected && !connecting) {
+
+			GUILayout.BeginHorizontal ();
+			GUILayout.Label ("Your username: ");
+			PhotonNetwork.player.name = GUILayout.TextField (PhotonNetwork.player.name, GUILayout.ExpandWidth(false));
+			GUILayout.EndHorizontal ();
+
+			if (GUILayout.Button ("Single player")) {
+				connecting = true;
+				PhotonNetwork.offlineMode = true;
+				OnJoinedLobby ();
+			}
+
+			if (GUILayout.Button ("Multi player")) {
+				connecting = true;
+				Connect ();
+			}
+		}
+
 	}
 
 	void OnJoinedLobby () {

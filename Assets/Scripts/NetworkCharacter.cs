@@ -12,6 +12,10 @@ public class NetworkCharacter : Photon.MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		anim = GetComponent<Animator>();
+
+		Debug.Log ("My name is " + transform.name);
+		Debug.Log ("My PhotonNetwork ID = " + GetComponent<PhotonView>().instantiationId);
+		Debug.Log ("My is Masterclient = " + PhotonNetwork.isMasterClient);
 	}
 	
 	// Update is called once per frame

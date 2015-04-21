@@ -17,6 +17,7 @@ public class Health : MonoBehaviour {
 	
 	}
 
+	[RPC]
 	public void TakeDamage (float damage) {
 		currentHitPoints -= damage;
 
@@ -26,6 +27,17 @@ public class Health : MonoBehaviour {
 	}
 
 	public void Die () {
-		Destroy (gameObject);
+
+		//Debug.Log ("PhotonNetwork ID = " + GetComponent <PhotonView> ().instantiationId);
+		//Debug.Log ("Name = " + this.name);
+		//Debug.Log ("PhotonNetwork isMaster = " + PhotonNetwork.isMasterClient);
+
+		if (GetComponent <PhotonView> ().instantiationId == 0) {
+			Destroy (gameObject);
+		} else {
+			if (PhotonNetwork.isMasterClient) {
+				PhotonNetwork.Destroy (gameObject);
+			}
+		}
 	}
 }
