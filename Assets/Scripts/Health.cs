@@ -35,7 +35,7 @@ public class Health : MonoBehaviour {
 		if (GetComponent <PhotonView> ().instantiationId == 0) {
 			Destroy (gameObject);
 		} else {
-			if (PhotonNetwork.isMasterClient) {
+			if (GetComponent <PhotonView> ().isMine) {
 				PhotonNetwork.Destroy (gameObject);
 			}
 		}
