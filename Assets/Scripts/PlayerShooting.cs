@@ -5,6 +5,7 @@ using System.Linq;
 public class PlayerShooting : MonoBehaviour {
 
 	public float fireRate = 0.5f;
+	public float shootingDistance;
 	public float damage = 50f;
 
 	//public NetworkManager networkManager;
@@ -49,7 +50,17 @@ public class PlayerShooting : MonoBehaviour {
 
 		Ray ray = new Ray (start.position, start.forward);
 
-		RaycastHit [] hits = Physics.RaycastAll (ray).OrderBy(h=>h.distance).ToArray();
+		RaycastHit [] hits = Physics.RaycastAll (ray, 50f).OrderBy(h=>h.distance).ToArray();
+
+		if (hits.Length == 0) {
+			fxManager.GetComponent <PhotonView> ().RPC("ShootingFX", PhotonTargets.All,
+			                                   start.position, start.position + shootingDistance*start.forward);
+		}
+
+		if (hits.Length == 1 && hits [0].transform == this.transform) {
+			fxManager.GetComponent <PhotonView> ().RPC("ShootingFX", PhotonTargets.All,
+			                                   start.position, start.position + shootingDistance*start.forward);
+		}
 
 		for (int i = 0; i < hits.Length; i++) {
 			if (hits [i].transform != this.transform) {
