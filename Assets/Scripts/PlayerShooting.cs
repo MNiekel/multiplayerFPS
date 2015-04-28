@@ -59,7 +59,7 @@ public class PlayerShooting : MonoBehaviour {
 
 		if (hits.Length == 1 && hits [0].transform == this.transform) {
 			fxManager.GetComponent <PhotonView> ().RPC("ShootingFX", PhotonTargets.All,
-			                                   start.position, start.position + shootingDistance*start.forward);
+			                                           start.position, hits [0].point);
 		}
 
 		for (int i = 0; i < hits.Length; i++) {
