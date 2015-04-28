@@ -110,6 +110,7 @@ public class NetworkManager : MonoBehaviour {
 		AddChatMessage (PhotonNetwork.player.name + " has entered the room");
 
 		SpawnPlayer ();
+		SpawnObjects ();
 	}
 
 	void SpawnPlayer () {
@@ -117,7 +118,6 @@ public class NetworkManager : MonoBehaviour {
 		GameObject myPlayer = PhotonNetwork.Instantiate ("Player Controller",
 		           spawnPoint.transform.position, spawnPoint.transform.rotation, 0) as GameObject;
 		worldCamera.SetActive (false);
-		//myPlayer.GetComponent <MouseLook> ().enabled = true;
 		myPlayer.GetComponent <PlayerMovement> ().enabled = true;
 		myPlayer.GetComponent <PlayerShooting> ().enabled = true;
 		myPlayer.GetComponentInChildren <Camera> ().enabled = true;
@@ -126,6 +126,17 @@ public class NetworkManager : MonoBehaviour {
 		foreach (MouseLook script in mouseScriptList) {
 			script.enabled = true;
 		}
-		//myPlayer.GetComponentInChildren <MouseLook> ().enabled = true;
+	}
+
+	void SpawnObjects () {
+		Debug.Log ("Spawning Barrel");
+		//PhotonNetwork.Instantiate  ("Barrel", new Vector3(-65f, -1f, 8f), Quaternion.identity, 1);
+		PhotonNetwork.InstantiateSceneObject ("Barrel", new Vector3(-60f, 0.5f, -7f), Quaternion.identity, 0, null);
+		PhotonNetwork.InstantiateSceneObject ("Barrel", new Vector3(-60f, 0.5f, -5f), Quaternion.identity, 0, null);
+		PhotonNetwork.InstantiateSceneObject ("Barrel", new Vector3(-60f, 0.5f, -3f), Quaternion.identity, 0, null);
+		PhotonNetwork.InstantiateSceneObject ("Barrel", new Vector3(-60f, 0.5f, 3f), Quaternion.identity, 0, null);
+		PhotonNetwork.InstantiateSceneObject ("Barrel", new Vector3(-60f, 0.5f, 5f), Quaternion.identity, 0, null);
+		PhotonNetwork.InstantiateSceneObject ("Barrel", new Vector3(-60f, 0.5f, 7f), Quaternion.identity, 0, null);
+		PhotonNetwork.InstantiateSceneObject ("Crate", new Vector3(-59f, 0.5f, 7f), Quaternion.identity, 0, null);
 	}
 }

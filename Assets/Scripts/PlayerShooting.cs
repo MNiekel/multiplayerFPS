@@ -33,7 +33,10 @@ public class PlayerShooting : MonoBehaviour {
 		if (cooldown > 0) {
 			return;
 		}
-		Ray ray = new Ray (Camera.main.transform.position, Camera.main.transform.forward);
+
+		Transform start = Camera.main.transform;
+
+		Ray ray = new Ray (start.position, start.forward);
 
 		RaycastHit hit;
 
@@ -43,8 +46,7 @@ public class PlayerShooting : MonoBehaviour {
 			if (hits [i].transform != this.transform) {
 				Hit(hits [i]);
 				fxManager.GetComponent <PhotonView> ().RPC("ShootingFX", PhotonTargets.All,
-				                                           Camera.main.transform.position,
-				                                           hits [i].transform.position);
+				                                           start.position, hits [i].point);
 				break;
 			}
 		}
@@ -53,7 +55,7 @@ public class PlayerShooting : MonoBehaviour {
 	}
 
 	private void Hit (RaycastHit hit) {
-		Debug.Log ("We hit: " + hit.collider.name);
+		Debug.Log ("Hit: " + hit.collider.name);
 		Health healthOfHit = hit.collider.GetComponent<Health> () as Health;
 		if (healthOfHit != null) {
 			healthOfHit.GetComponent <PhotonView> ().RPC ("TakeDamage", PhotonTargets.AllBuffered, damage);

@@ -37,4 +37,5 @@ MonoBehaviour:
   - AddChatMessage_RPC
   - BulletFX
   - ShootingFX
+  - ExplosionFX
   DisableAutoOpenWizard: 0

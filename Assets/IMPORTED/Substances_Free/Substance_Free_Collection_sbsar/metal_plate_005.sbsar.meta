@@ -162,16 +162,16 @@ SubstanceImporter:
         data:
           first:
             name: _Shininess
-          second: .078125
+          second: .0620710813
       colors:
         data:
           first:
             name: _Color
-          second: {r: 1, g: 1, b: 1, a: 1}
+          second: {r: .882352948, g: .659169555, b: .324394464, a: 1}
         data:
           first:
             name: _SpecColor
-          second: {r: .5, g: .5, b: .5, a: 1}
+          second: {r: .507352948, g: .471848547, b: .395436853, a: 1}
     textureParameters:
     - name: metal_plate_005_Diffuse
       alphaSource: 5

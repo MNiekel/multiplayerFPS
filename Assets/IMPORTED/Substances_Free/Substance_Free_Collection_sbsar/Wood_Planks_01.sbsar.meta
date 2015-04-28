@@ -141,16 +141,16 @@ SubstanceImporter:
         data:
           first:
             name: _Shininess
-          second: .078125
+          second: .983182967
       colors:
         data:
           first:
             name: _Color
-          second: {r: 1, g: 1, b: 1, a: 1}
+          second: {r: .691176474, g: .493777603, b: .24394463, a: 1}
         data:
           first:
             name: _SpecColor
-          second: {r: .5, g: .5, b: .5, a: 1}
+          second: {r: .529411793, g: .410750538, b: .198529422, a: 1}
     textureParameters:
     - name: Wood_Planks_01_Diffuse
       alphaSource: 5
