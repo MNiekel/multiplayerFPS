@@ -11,12 +11,17 @@ public class PlayerShooting : MonoBehaviour {
 
 	private float cooldown = 0f;
 	private FXManager fxManager;
+	private Animator anim;
 
 	// Use this for initialization
 	void Start () {
 		fxManager = GameObject.FindObjectOfType <FXManager> ();
 		if (fxManager == null) {
 			Debug.LogError ("Could not find FXManager");
+		}
+		anim = GetComponent<Animator>();
+		if (anim == null) {
+			Debug.LogError ("Could not find Animator");
 		}
 	}
 	
@@ -25,7 +30,13 @@ public class PlayerShooting : MonoBehaviour {
 		cooldown -= Time.deltaTime;
 
 		if (Input.GetButton ("Fire1")) {
-			Shoot ();
+			if (cooldown < 0) {
+				anim.SetBool ("Shooting", true);
+
+				Shoot ();
+			}
+		} else {
+			anim.SetBool ("Shooting", false);
 		}
 	}
 
@@ -37,8 +48,6 @@ public class PlayerShooting : MonoBehaviour {
 		Transform start = Camera.main.transform;
 
 		Ray ray = new Ray (start.position, start.forward);
-
-		RaycastHit hit;
 
 		RaycastHit [] hits = Physics.RaycastAll (ray).OrderBy(h=>h.distance).ToArray();
 

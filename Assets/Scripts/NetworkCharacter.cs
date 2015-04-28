@@ -31,12 +31,14 @@ public class NetworkCharacter : Photon.MonoBehaviour {
 			stream.SendNext(transform.rotation);
 			stream.SendNext(anim.GetFloat("Speed"));
 			stream.SendNext(anim.GetBool("Jump"));
+			stream.SendNext(anim.GetBool("Shooting"));
 		} else {
 			// This is remote player, we need to receive position and rotation and update our version of that player
 			realPosition = (Vector3) stream.ReceiveNext ();
 			realRotation = (Quaternion) stream.ReceiveNext ();
 			anim.SetFloat("Speed", (float) stream.ReceiveNext());
 			anim.SetBool("Jump", (bool) stream.ReceiveNext());
+			anim.SetBool("Shooting", (bool) stream.ReceiveNext());
 		}
 	}
 }

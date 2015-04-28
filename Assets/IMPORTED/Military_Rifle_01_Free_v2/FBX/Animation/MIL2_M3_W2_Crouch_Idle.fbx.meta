@@ -397,8 +397,8 @@ ModelImporter:
     - serializedVersion: 16
       name: MIL2_M3_W2_Jump
       takeName: MIL2_M3_W2_Crouch_Idle
-      firstFrame: 10
-      lastFrame: 11
+      firstFrame: 0
+      lastFrame: .100000001
       wrapMode: 0
       orientationOffsetY: 0
       level: .5

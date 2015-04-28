@@ -28,7 +28,6 @@ public class FXManager : MonoBehaviour {
 
 	[RPC]
 	private void ExplosionFX (Vector3 point) {
-		GameObject explosionFX = Instantiate (explosionFXPrefab, point,
-		                                     Quaternion.identity) as GameObject;
+		Instantiate (explosionFXPrefab, point, Quaternion.identity);
 	}
 }

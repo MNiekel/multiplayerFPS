@@ -310,6 +310,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 019eb5f33d7524179aca22df579fbcfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  teamID: 1
 --- !u!1 &135911679
 GameObject:
   m_ObjectHideFlags: 0
@@ -505,6 +506,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 019eb5f33d7524179aca22df579fbcfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  teamID: 1
 --- !u!1 &438070844
 GameObject:
   m_ObjectHideFlags: 0
@@ -674,6 +676,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 019eb5f33d7524179aca22df579fbcfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  teamID: 1
 --- !u!1 &553811301
 GameObject:
   m_ObjectHideFlags: 0
@@ -911,6 +914,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 019eb5f33d7524179aca22df579fbcfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  teamID: 1
 --- !u!1 &737778240
 GameObject:
   m_ObjectHideFlags: 0
@@ -1147,6 +1151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 019eb5f33d7524179aca22df579fbcfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  teamID: 0
 --- !u!1 &948863454
 GameObject:
   m_ObjectHideFlags: 0
@@ -1188,7 +1193,6 @@ GameObject:
   - 4: {fileID: 981657070}
   - 114: {fileID: 981657071}
   - 114: {fileID: 981657073}
-  - 114: {fileID: 981657074}
   - 114: {fileID: 981657072}
   m_Layer: 0
   m_Name: Scripts
@@ -1259,17 +1263,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shootingFXPrefab: {fileID: 102276, guid: 1d3164f58f13949f395208cd96736e91, type: 2}
   explosionFXPrefab: {fileID: 178572, guid: afe69ba6a499a4f8195b1db0a2b15e6e, type: 2}
---- !u!114 &981657074
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 981657069}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03c3d6ce35eb5428b86a64f51d5b848a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1061764187
 GameObject:
   m_ObjectHideFlags: 0
@@ -1436,6 +1429,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 019eb5f33d7524179aca22df579fbcfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  teamID: 0
 --- !u!1 &1156318696
 GameObject:
   m_ObjectHideFlags: 0
@@ -1811,6 +1805,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 019eb5f33d7524179aca22df579fbcfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  teamID: 0
 --- !u!1 &1518235794
 GameObject:
   m_ObjectHideFlags: 0
@@ -2209,6 +2204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 019eb5f33d7524179aca22df579fbcfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  teamID: 0
 --- !u!1 &1987271894
 GameObject:
   m_ObjectHideFlags: 0

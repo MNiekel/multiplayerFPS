@@ -3,5 +3,5 @@ using System.Collections;
 
 public class SpawnPoint : MonoBehaviour {
 
-	int teamID = 0;
+	public int teamID = 0;
 }
