@@ -41,6 +41,11 @@ public class PlayerMovement : MonoBehaviour {
 				verticalVelocity = 0;
 			}
 		}
+
+		if (Input.GetKeyDown(KeyCode.Escape)) {
+			PhotonNetwork.DestroyPlayerObjects (PhotonNetwork.player);
+			PhotonNetwork.LeaveRoom ();
+		}
 	}
 
 	// Called once per physics loop

@@ -1193,6 +1193,7 @@ GameObject:
   - 4: {fileID: 981657070}
   - 114: {fileID: 981657071}
   - 114: {fileID: 981657073}
+  - 114: {fileID: 981657074}
   - 114: {fileID: 981657072}
   m_Layer: 0
   m_Name: Scripts
@@ -1263,6 +1264,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shootingFXPrefab: {fileID: 102276, guid: 1d3164f58f13949f395208cd96736e91, type: 2}
   explosionFXPrefab: {fileID: 178572, guid: afe69ba6a499a4f8195b1db0a2b15e6e, type: 2}
+--- !u!114 &981657074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 981657069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4485bdeef13f3433db8e68875c7f5ffe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1061764187
 GameObject:
   m_ObjectHideFlags: 0

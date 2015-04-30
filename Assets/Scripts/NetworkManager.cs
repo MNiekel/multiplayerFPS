@@ -115,16 +115,22 @@ public class NetworkManager : MonoBehaviour {
 		connecting = false;
 		AddChatMessage (PhotonNetwork.player.name + " has entered the room");
 
-		foreach (PhotonPlayer player in PhotonNetwork.playerList) {
-			Debug.Log (player.name);
-		}
+		//foreach (PhotonPlayer player in PhotonNetwork.playerList) {
+		//	Debug.Log (player.name);
+		//}
 
 		//SpawnObjects ();
 		if (PhotonNetwork.isMasterClient) {
-			objectSpawner.GetComponent <PhotonView> ().RPC ("SpawnSceneObject", PhotonTargets.All,
-		                                                "barrel", new Vector3 (-60f, 0.5f, 7f));
+			SpawnSceneObjects();
 		}
 		SpawnPlayer ();
+	}
+
+	void OnLeftRoom() {
+		Debug.Log ("Left room");
+		connecting = true;
+		//AddChatMessage (PhotonNetwork.player.name + " has left the room");
+		PhotonNetwork.LoadLevel ("scene01");
 	}
 
 	void SpawnPlayer () {
@@ -142,5 +148,15 @@ public class NetworkManager : MonoBehaviour {
 		}
 	}
 
+	void SpawnSceneObjects () {
+		objectSpawner.GetComponent <PhotonView> ().RPC ("SpawnSceneObject", PhotonTargets.All,
+		                                                "barrel", new Vector3 (-60f, 0.5f, 7f));
+		objectSpawner.GetComponent <PhotonView> ().RPC ("SpawnSceneObject", PhotonTargets.All,
+		                                                "crate", new Vector3 (-60f, 0.5f, -7f));
+		objectSpawner.GetComponent <PhotonView> ().RPC ("SpawnSceneObject", PhotonTargets.All,
+		                                                "barrel", new Vector3 (60f, 0.5f, 7f));
+		objectSpawner.GetComponent <PhotonView> ().RPC ("SpawnSceneObject", PhotonTargets.All,
+		                                                "crate", new Vector3 (60f, 0.5f, -7f));
+	}
 
 }
