@@ -38,4 +38,5 @@ MonoBehaviour:
   - BulletFX
   - ShootingFX
   - ExplosionFX
+  - SpawnSceneObject
   DisableAutoOpenWizard: 0

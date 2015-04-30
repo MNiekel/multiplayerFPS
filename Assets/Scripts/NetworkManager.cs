@@ -10,6 +10,7 @@ public class NetworkManager : MonoBehaviour {
 	private bool connecting = false;
 	private List<string> messages;
 	private int maxNumberOfMessages = 5;
+	private Spawner objectSpawner;
 
 	// Use this for initialization
 	void Start () {
@@ -17,6 +18,11 @@ public class NetworkManager : MonoBehaviour {
 		if (spawnPoints == null) {
 			Debug.LogError ("No Spawnpoints!");
 		}
+		objectSpawner = GameObject.FindObjectOfType <Spawner> ();
+		if (objectSpawner == null) {
+			Debug.LogError ("Could not find NetworkManager");
+		}
+
 		PhotonNetwork.player.name = PlayerPrefs.GetString ("USERNAME", "Sangatsuko");
 
 		messages = new List<string> (maxNumberOfMessages);
@@ -109,7 +115,15 @@ public class NetworkManager : MonoBehaviour {
 		connecting = false;
 		AddChatMessage (PhotonNetwork.player.name + " has entered the room");
 
-		SpawnObjects ();
+		foreach (PhotonPlayer player in PhotonNetwork.playerList) {
+			Debug.Log (player.name);
+		}
+
+		//SpawnObjects ();
+		if (PhotonNetwork.isMasterClient) {
+			objectSpawner.GetComponent <PhotonView> ().RPC ("SpawnSceneObject", PhotonTargets.All,
+		                                                "barrel", new Vector3 (-60f, 0.5f, 7f));
+		}
 		SpawnPlayer ();
 	}
 
@@ -128,8 +142,5 @@ public class NetworkManager : MonoBehaviour {
 		}
 	}
 
-	void SpawnObjects () {
-		PhotonNetwork.InstantiateSceneObject ("Barrel", new Vector3(-60f, 0.5f, 7f), Quaternion.identity, 0, null);
-		PhotonNetwork.InstantiateSceneObject ("Crate", new Vector3(-59f, 0.5f, -7f), Quaternion.identity, 0, null);
-	}
+
 }
