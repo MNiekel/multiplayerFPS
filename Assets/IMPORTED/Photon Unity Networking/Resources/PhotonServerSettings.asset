@@ -39,4 +39,5 @@ MonoBehaviour:
   - ShootingFX
   - ExplosionFX
   - SpawnSceneObject
+  - SetTeamID
   DisableAutoOpenWizard: 0

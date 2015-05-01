@@ -1325,6 +1325,7 @@ GameObject:
   - 114: {fileID: 11463872}
   - 114: {fileID: 11453262}
   - 114: {fileID: 11475262}
+  - 114: {fileID: 11482618}
   m_Layer: 0
   m_Name: Player Controller
   m_TagString: Player
@@ -1351,7 +1352,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &409908
 Transform:
   m_ObjectHideFlags: 1
@@ -2514,7 +2515,7 @@ Camera:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 194788}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
   m_BackGroundColor: {r: .19166474, g: .301966369, b: .474509805, a: 1}
@@ -2573,7 +2574,7 @@ AudioListener:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 194788}
-  m_Enabled: 0
+  m_Enabled: 1
 --- !u!92 &9294788
 Behaviour:
   m_ObjectHideFlags: 1
@@ -2703,13 +2704,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitPoints: 100
+--- !u!114 &11482618
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 194786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6662927612da043d38309c29a319f017, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11494788
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 194788}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 68ec2fe99d1108b9d0006a298d76c639, type: 3}
   m_Name: 

@@ -11,7 +11,14 @@ public class NetworkCharacter : Photon.MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		anim = GetComponent<Animator>();
+		CacheComponents();
+	}
+
+	
+	void CacheComponents () {
+		if (anim == null) {
+			anim = GetComponent<Animator> ();
+		}
 	}
 	
 	// Update is called once per frame
@@ -25,6 +32,8 @@ public class NetworkCharacter : Photon.MonoBehaviour {
 	}
 	
 	public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
+		CacheComponents ();
+
 		if (stream.isWriting) {
 			// This is local player, we need to send our position and rotation
 			stream.SendNext(transform.position);

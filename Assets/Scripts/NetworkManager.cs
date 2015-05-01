@@ -12,6 +12,8 @@ public class NetworkManager : MonoBehaviour {
 	private List<string> messages;
 	private int maxNumberOfMessages = 5;
 	private Spawner objectSpawner;
+	private int teamID = -1;
+	private bool teamSelected = false;
 
 	// Use this for initialization
 	void Start () {
@@ -83,12 +85,13 @@ public class NetworkManager : MonoBehaviour {
 			if (GUILayout.Button ("Single player")) {
 				connecting = true;
 				PhotonNetwork.offlineMode = true;
+				teamID = 0;
 				OnJoinedLobby ();
 			}
 
 			if (GUILayout.Button ("Multi player")) {
 				connecting = true;
-				Connect ();
+				//Connect ();
 			}
 
 			GUILayout.FlexibleSpace ();
@@ -98,7 +101,33 @@ public class NetworkManager : MonoBehaviour {
 			GUILayout.EndArea();
 		}
 
-		if (PhotonNetwork.connected && !connecting) {
+		if (!PhotonNetwork.connected && connecting && !teamSelected) {
+			GUILayout.BeginArea(new Rect(0f, 0f, Screen.width, Screen.height));
+			GUILayout.BeginHorizontal();
+			GUILayout.FlexibleSpace ();
+			GUILayout.BeginVertical ();
+			GUILayout.FlexibleSpace ();
+			
+			if (GUILayout.Button ("Red Team")) {
+				teamID = 2;
+				teamSelected = true;
+				Connect ();
+			}
+			
+			if (GUILayout.Button ("Yellow Team")) {
+				teamID = 1;
+				teamSelected = true;
+				Connect ();
+			}
+			
+			GUILayout.FlexibleSpace ();
+			GUILayout.EndVertical ();
+			GUILayout.FlexibleSpace ();
+			GUILayout.EndHorizontal ();
+			GUILayout.EndArea();
+		}
+
+		if (PhotonNetwork.connected && !connecting && teamSelected) {
 			GUILayout.BeginArea(new Rect(0f, 0f, Screen.width, Screen.height));
 			GUILayout.BeginVertical ();
 			GUILayout.FlexibleSpace ();
@@ -126,11 +155,6 @@ public class NetworkManager : MonoBehaviour {
 		connecting = false;
 		AddChatMessage (PhotonNetwork.player.name + " has entered the room");
 
-		//foreach (PhotonPlayer player in PhotonNetwork.playerList) {
-		//	Debug.Log (player.name);
-		//}
-
-		//SpawnObjects ();
 		if (PhotonNetwork.isMasterClient) {
 			SpawnSceneObjects();
 		}
@@ -145,18 +169,29 @@ public class NetworkManager : MonoBehaviour {
 	}
 
 	void SpawnPlayer () {
-		SpawnPoint spawnPoint = spawnPoints [Random.Range(0, spawnPoints.Length)];
+		int spawnPointNumber = Random.Range(0, spawnPoints.Length);
+
+		if (teamID == 1) {
+			spawnPointNumber = Random.Range(spawnPoints.Length / 2, spawnPoints.Length);
+		} else {
+			if (teamID == 2) {
+				spawnPointNumber = Random.Range(0, spawnPoints.Length / 2);
+			}
+		}
+
+		SpawnPoint spawnPoint = spawnPoints [spawnPointNumber];
+		
 		GameObject myPlayer = PhotonNetwork.Instantiate ("Player Controller",
 		           spawnPoint.transform.position, spawnPoint.transform.rotation, 0) as GameObject;
 		worldCamera.SetActive (false);
 		myPlayer.GetComponent <PlayerMovement> ().enabled = true;
 		myPlayer.GetComponent <PlayerShooting> ().enabled = true;
-		myPlayer.GetComponentInChildren <Camera> ().enabled = true;
-		myPlayer.GetComponentInChildren <AudioListener> ().enabled = true;
-		MouseLook[] mouseScriptList = myPlayer.GetComponentsInChildren <MouseLook> ();
-		foreach (MouseLook script in mouseScriptList) {
-			script.enabled = true;
-		}
+		myPlayer.GetComponent <MouseLook> ().enabled = true;
+
+		myPlayer.GetComponent <PhotonView> ().RPC ("SetTeamID", PhotonTargets.AllBuffered, teamID);
+
+		myPlayer.transform.FindChild ("Main Camera").gameObject.SetActive (true);
+
 	}
 
 	void SpawnSceneObjects () {
