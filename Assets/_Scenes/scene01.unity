@@ -1226,6 +1226,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   worldCamera: {fileID: 737778240}
+  respawnTimer: 0
 --- !u!114 &981657072
 MonoBehaviour:
   m_ObjectHideFlags: 0

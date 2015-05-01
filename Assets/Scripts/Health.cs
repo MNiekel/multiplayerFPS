@@ -7,6 +7,7 @@ public class Health : MonoBehaviour {
 
 	private float currentHitPoints;
 	private FXManager fxManager;
+	private NetworkManager networkManager;
 
 	// Use this for initialization
 	void Start () {
@@ -16,10 +17,23 @@ public class Health : MonoBehaviour {
 		if (fxManager == null) {
 			Debug.LogError ("Could not find FXManager");
 		}
+		networkManager = GameObject.FindObjectOfType <NetworkManager> ();
+		if (networkManager == null) {
+			Debug.LogError ("Could not find NetworkManager");
+		}
 	}
 	
 	// Update is called once per frame
 	void Update () {
+	}
+
+	void OnGUI() {
+		if (GetComponent <PhotonView> ().isMine && gameObject.tag == "Player") {
+			if (GUI.Button (new Rect (Screen.width - 100, 10, 80, 40), "Suicide")) {
+				Debug.Log (PhotonNetwork.player.name + " commits suicide");
+				Die ();
+			}
+		}
 	}
 
 	[RPC]
@@ -42,6 +56,11 @@ public class Health : MonoBehaviour {
 			Destroy (gameObject);
 		} else {
 			if (GetComponent <PhotonView> ().isMine) {
+				if (gameObject.tag == "Player") { // this is actual player object => respawn
+					networkManager.AddChatMessage(PhotonNetwork.player.name + " has died...");
+					networkManager.worldCamera.SetActive (true);
+					networkManager.respawnTimer = 3f;
+				}
 				PhotonNetwork.Destroy (gameObject);
 			}
 		}

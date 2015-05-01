@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class NetworkManager : MonoBehaviour {
 
 	public GameObject worldCamera;
+	public float respawnTimer;
 
 	private SpawnPoint[] spawnPoints;
 	private bool connecting = false;
@@ -26,6 +27,16 @@ public class NetworkManager : MonoBehaviour {
 		PhotonNetwork.player.name = PlayerPrefs.GetString ("USERNAME", "Sangatsuko");
 
 		messages = new List<string> (maxNumberOfMessages);
+	}
+
+	void Update () {
+		if (respawnTimer > 0) {
+			respawnTimer -= Time.deltaTime;
+
+			if (respawnTimer <= 0) {
+				SpawnPlayer ();
+			}
+		}
 	}
 
 
