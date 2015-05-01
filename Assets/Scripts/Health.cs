@@ -25,7 +25,7 @@ public class Health : MonoBehaviour {
 	/*
 	void OnGUI() {
 		if (GetComponent <PhotonView> ().isMine && gameObject.tag == "Player") {
-			if (GUI.Button (new Rect (Screen.width - 100, 10, 80, 40), "Suicide")) {
+			if (GUI.Button (new Rect (10, 20, 60, 20), "Suicide")) {
 				Debug.Log (PhotonNetwork.player.name + " commits suicide");
 				Die ();
 			}

@@ -38,10 +38,8 @@ public class PlayerMovement : MonoBehaviour {
 			}
 		}
 
-		if (Input.GetKeyDown(KeyCode.Escape)) {
-			PhotonNetwork.DestroyPlayerObjects (PhotonNetwork.player);
-			PhotonNetwork.LeaveRoom ();
-			PhotonNetwork.Disconnect ();
+		if (Input.GetKeyDown (KeyCode.Escape)) {
+			GetComponent <PhotonView> ().RPC ("TakeDamage", PhotonTargets.AllBuffered, 100f, PhotonNetwork.player.name);
 		}
 	}
 

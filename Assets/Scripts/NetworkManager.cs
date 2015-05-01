@@ -191,7 +191,10 @@ public class NetworkManager : MonoBehaviour {
 		int teamID = Random.Range (1, 3);
 		Hashtable setPlayerTeam = new Hashtable ();
 
+		Debug.Log ("Number of players: " + players.Length);
+
 		foreach (PhotonPlayer player in players) {
+
 			object ID;
 			if (player.customProperties.TryGetValue("Team", out ID)) {
 				if ((int)ID == 1) {
@@ -200,6 +203,8 @@ public class NetworkManager : MonoBehaviour {
 				if ((int)ID == 2) {
 					players2++;
 				}
+
+				Debug.Log(player.name +" has team ID "+ID.ToString());
 			}
 		}
 
@@ -216,6 +221,7 @@ public class NetworkManager : MonoBehaviour {
 		setPlayerTeam.Add ("Team", teamID);
 		PhotonNetwork.player.SetCustomProperties (setPlayerTeam);
 
+		Debug.Log(PhotonNetwork.player.name +" has team ID "+ teamID.ToString());
 		AddChatMessage (PhotonNetwork.player.name + " plays for team " + teamID);
 	}
 
