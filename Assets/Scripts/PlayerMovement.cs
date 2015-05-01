@@ -13,19 +13,14 @@ public class PlayerMovement : MonoBehaviour {
 	private Animator anim;
 	private float verticalVelocity = 0f;
 
-	// Use this for initialization
 	void Start () {
 		cc = GetComponent<CharacterController> ();
 		anim = GetComponent<Animator> ();
 	}
 
-	
-	// Update is called once per frame
 	void Update () {
 
-		direction = transform.rotation * new Vector3 (Input.GetAxis ("Horizontal"),
-		                         0,
-		                         Input.GetAxis ("Vertical"));
+		direction = transform.rotation * new Vector3 (Input.GetAxis ("Horizontal"), 0, Input.GetAxis ("Vertical"));
 
 		if (direction.magnitude > 1) {
 			direction = direction.normalized;

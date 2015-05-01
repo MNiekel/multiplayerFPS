@@ -9,23 +9,18 @@ public class NetworkCharacter : Photon.MonoBehaviour {
 	public float smoothing = 0.01f;
 	private Animator anim;
 	
-	// Use this for initialization
 	void Start () {
 		CacheComponents();
 	}
 
-	
 	void CacheComponents () {
 		if (anim == null) {
 			anim = GetComponent<Animator> ();
 		}
 	}
 	
-	// Update is called once per frame
 	void Update () {
-		if (photonView.isMine) {
-			// Do nothing, CharacterMotor Script does everything
-		} else {
+		if (!photonView.isMine) {
 			transform.position = Vector3.Lerp(transform.position, realPosition, smoothing);
 			transform.rotation = Quaternion.Lerp (transform.rotation, realRotation, smoothing);
 		}

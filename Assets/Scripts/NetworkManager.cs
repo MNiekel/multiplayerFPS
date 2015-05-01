@@ -1,21 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class NetworkManager : MonoBehaviour {
 
 	public GameObject worldCamera;
-	public float respawnTimer;
 
+	private float respawn = 0;
 	private SpawnPoint[] spawnPoints;
 	private bool connecting = false;
 	private List<string> messages;
 	private int maxNumberOfMessages = 5;
 	private Spawner objectSpawner;
-	private int teamID = -1;
-	private bool teamSelected = false;
 
-	// Use this for initialization
 	void Start () {
 		spawnPoints = FindObjectsOfType <SpawnPoint> ();
 		if (spawnPoints == null) {
@@ -32,27 +30,13 @@ public class NetworkManager : MonoBehaviour {
 	}
 
 	void Update () {
-		if (respawnTimer > 0) {
-			respawnTimer -= Time.deltaTime;
+		if (respawn > 0) {
+			respawn -= Time.deltaTime;
 
-			if (respawnTimer <= 0) {
+			if (respawn <= 0) {
 				SpawnPlayer ();
 			}
 		}
-	}
-
-
-	public void AddChatMessage (string message) {
-		GetComponent<PhotonView> ().RPC ("AddChatMessage_RPC", PhotonTargets.AllBuffered, message);
-	}
-
-	[RPC]
-	private void AddChatMessage_RPC (string message) {
-		while (messages.Count >= maxNumberOfMessages) {
-			messages.RemoveAt (0);
-		}
-
-		messages.Add (message);
 	}
 
 	void OnDestroy () {
@@ -85,13 +69,12 @@ public class NetworkManager : MonoBehaviour {
 			if (GUILayout.Button ("Single player")) {
 				connecting = true;
 				PhotonNetwork.offlineMode = true;
-				teamID = 0;
 				OnJoinedLobby ();
 			}
 
 			if (GUILayout.Button ("Multi player")) {
 				connecting = true;
-				//Connect ();
+				Connect ();
 			}
 
 			GUILayout.FlexibleSpace ();
@@ -101,33 +84,7 @@ public class NetworkManager : MonoBehaviour {
 			GUILayout.EndArea();
 		}
 
-		if (!PhotonNetwork.connected && connecting && !teamSelected) {
-			GUILayout.BeginArea(new Rect(0f, 0f, Screen.width, Screen.height));
-			GUILayout.BeginHorizontal();
-			GUILayout.FlexibleSpace ();
-			GUILayout.BeginVertical ();
-			GUILayout.FlexibleSpace ();
-			
-			if (GUILayout.Button ("Red Team")) {
-				teamID = 2;
-				teamSelected = true;
-				Connect ();
-			}
-			
-			if (GUILayout.Button ("Yellow Team")) {
-				teamID = 1;
-				teamSelected = true;
-				Connect ();
-			}
-			
-			GUILayout.FlexibleSpace ();
-			GUILayout.EndVertical ();
-			GUILayout.FlexibleSpace ();
-			GUILayout.EndHorizontal ();
-			GUILayout.EndArea();
-		}
-
-		if (PhotonNetwork.connected && !connecting && teamSelected) {
+		if (PhotonNetwork.connected && !connecting) {
 			GUILayout.BeginArea(new Rect(0f, 0f, Screen.width, Screen.height));
 			GUILayout.BeginVertical ();
 			GUILayout.FlexibleSpace ();
@@ -135,6 +92,21 @@ public class NetworkManager : MonoBehaviour {
 				GUILayout.Label (message);
 			}
 			GUILayout.EndVertical ();
+			GUILayout.EndArea();
+		}
+
+		if (respawn > 0) {
+			GUILayout.BeginArea(new Rect(0f, 0f, Screen.width, Screen.height));
+			GUILayout.BeginHorizontal();
+			GUILayout.FlexibleSpace ();
+			GUILayout.BeginVertical ();
+
+			GUILayout.Label ("Respawn in "+respawn.ToString("0.00")+" seconds");
+
+			GUILayout.FlexibleSpace ();
+			GUILayout.EndVertical ();
+			GUILayout.FlexibleSpace ();
+			GUILayout.EndHorizontal ();
 			GUILayout.EndArea();
 		}
 
@@ -158,18 +130,25 @@ public class NetworkManager : MonoBehaviour {
 		if (PhotonNetwork.isMasterClient) {
 			SpawnSceneObjects();
 		}
+		AutoTeamSelect ();
 		SpawnPlayer ();
 	}
 
 	void OnLeftRoom() {
 		Debug.Log ("Left room");
 		connecting = true;
-		//AddChatMessage (PhotonNetwork.player.name + " has left the room");
 		PhotonNetwork.LoadLevel ("scene01");
 	}
 
 	void SpawnPlayer () {
 		int spawnPointNumber = Random.Range(0, spawnPoints.Length);
+
+		int teamID = 0;
+		object ID;
+		
+		if (PhotonNetwork.player.customProperties.TryGetValue ("Team", out ID)) {
+			teamID = (int)ID;
+		}
 
 		if (teamID == 1) {
 			spawnPointNumber = Random.Range(spawnPoints.Length / 2, spawnPoints.Length);
@@ -194,7 +173,7 @@ public class NetworkManager : MonoBehaviour {
 
 	}
 
-	void SpawnSceneObjects () {
+	private void SpawnSceneObjects () {
 		objectSpawner.GetComponent <PhotonView> ().RPC ("SpawnSceneObject", PhotonTargets.All,
 		                                                "barrel", new Vector3 (-60f, 0.5f, 7f));
 		objectSpawner.GetComponent <PhotonView> ().RPC ("SpawnSceneObject", PhotonTargets.All,
@@ -203,6 +182,59 @@ public class NetworkManager : MonoBehaviour {
 		                                                "barrel", new Vector3 (60f, 0.5f, 7f));
 		objectSpawner.GetComponent <PhotonView> ().RPC ("SpawnSceneObject", PhotonTargets.All,
 		                                                "crate", new Vector3 (60f, 0.5f, -7f));
+	}
+
+	private void AutoTeamSelect () {
+		PhotonPlayer[] players = PhotonNetwork.playerList;
+		int players1 = 0;
+		int players2 = 0;
+		int teamID = Random.Range (1, 3);
+		Hashtable setPlayerTeam = new Hashtable ();
+
+		foreach (PhotonPlayer player in players) {
+			object ID;
+			if (player.customProperties.TryGetValue("Team", out ID)) {
+				if ((int)ID == 1) {
+					players1++;
+				}
+				if ((int)ID == 2) {
+					players2++;
+				}
+			}
+		}
+
+		if (players1 > 0 || players2 > 0) {
+			if (players1 > players2) {
+				teamID = 2;
+			} else {
+				if (players2 > players1) {
+					teamID = 1;
+				}
+			}
+		}
+
+		setPlayerTeam.Add ("Team", teamID);
+		PhotonNetwork.player.SetCustomProperties (setPlayerTeam);
+
+		AddChatMessage (PhotonNetwork.player.name + " plays for team " + teamID);
+	}
+
+	public float respawnTimer {
+		get { return respawn; }
+		set { respawn = value; }
+	}
+	
+	public void AddChatMessage (string message) {
+		GetComponent<PhotonView> ().RPC ("AddChatMessage_RPC", PhotonTargets.AllBuffered, message);
+	}
+	
+	[RPC]
+	private void AddChatMessage_RPC (string message) {
+		while (messages.Count >= maxNumberOfMessages) {
+			messages.RemoveAt (0);
+		}
+		
+		messages.Add (message);
 	}
 
 }

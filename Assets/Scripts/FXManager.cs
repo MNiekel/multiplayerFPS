@@ -6,16 +6,6 @@ public class FXManager : MonoBehaviour {
 	public GameObject shootingFXPrefab;
 	public GameObject explosionFXPrefab;
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-
 	[RPC]
 	private void ShootingFX (Vector3 startPoint, Vector3 endPoint) {
 		Vector3 offset = new Vector3 (0f, -0.25f);

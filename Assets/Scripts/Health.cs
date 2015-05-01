@@ -9,7 +9,6 @@ public class Health : MonoBehaviour {
 	private FXManager fxManager;
 	private NetworkManager networkManager;
 
-	// Use this for initialization
 	void Start () {
 		currentHitPoints = hitPoints;
 
@@ -21,10 +20,6 @@ public class Health : MonoBehaviour {
 		if (networkManager == null) {
 			Debug.LogError ("Could not find NetworkManager");
 		}
-	}
-	
-	// Update is called once per frame
-	void Update () {
 	}
 
 	void OnGUI() {
@@ -47,7 +42,6 @@ public class Health : MonoBehaviour {
 
 	public void Die () {
 		if (gameObject.tag == "Exploder") {
-			Debug.Log ("BOOM!");
 			fxManager.GetComponent <PhotonView> ().RPC("ExplosionFX", PhotonTargets.All,
 			                                           transform.position);
 		}
@@ -56,7 +50,7 @@ public class Health : MonoBehaviour {
 			Destroy (gameObject);
 		} else {
 			if (GetComponent <PhotonView> ().isMine) {
-				if (gameObject.tag == "Player") { // this is actual player object => respawn
+				if (gameObject.tag == "Player") {
 					networkManager.AddChatMessage(PhotonNetwork.player.name + " has died...");
 					networkManager.worldCamera.SetActive (true);
 					networkManager.respawnTimer = 3f;

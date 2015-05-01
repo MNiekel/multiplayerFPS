@@ -310,7 +310,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 019eb5f33d7524179aca22df579fbcfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  teamID: 1
 --- !u!1 &135911679
 GameObject:
   m_ObjectHideFlags: 0
@@ -506,7 +505,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 019eb5f33d7524179aca22df579fbcfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  teamID: 1
 --- !u!1 &438070844
 GameObject:
   m_ObjectHideFlags: 0
@@ -676,7 +674,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 019eb5f33d7524179aca22df579fbcfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  teamID: 1
 --- !u!1 &553811301
 GameObject:
   m_ObjectHideFlags: 0
@@ -914,7 +911,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 019eb5f33d7524179aca22df579fbcfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  teamID: 1
 --- !u!1 &737778240
 GameObject:
   m_ObjectHideFlags: 0
@@ -1151,7 +1147,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 019eb5f33d7524179aca22df579fbcfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  teamID: 0
 --- !u!1 &948863454
 GameObject:
   m_ObjectHideFlags: 0
@@ -1226,7 +1221,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   worldCamera: {fileID: 737778240}
-  respawnTimer: 0
 --- !u!114 &981657072
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1442,7 +1436,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 019eb5f33d7524179aca22df579fbcfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  teamID: 0
 --- !u!1 &1156318696
 GameObject:
   m_ObjectHideFlags: 0
@@ -1818,7 +1811,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 019eb5f33d7524179aca22df579fbcfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  teamID: 0
 --- !u!1 &1518235794
 GameObject:
   m_ObjectHideFlags: 0
@@ -2217,7 +2209,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 019eb5f33d7524179aca22df579fbcfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  teamID: 0
 --- !u!1 &1987271894
 GameObject:
   m_ObjectHideFlags: 0
