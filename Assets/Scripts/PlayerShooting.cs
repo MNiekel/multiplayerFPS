@@ -75,11 +75,11 @@ public class PlayerShooting : MonoBehaviour {
 	}
 
 	private void Hit (RaycastHit hit) {
-		Debug.Log ("Hit: " + hit.collider.name);
+		Debug.Log (PhotonNetwork.player.name +" shot " + hit.collider.name);
 		if (hit.collider.tag == "Player") {
 			TeamMember teamMember = hit.collider.GetComponent <TeamMember> () as TeamMember;
 			if (teamMember.teamID != this.GetComponent <TeamMember> ().teamID || teamMember.teamID == 0) {
-				teamMember.GetComponent <PhotonView> ().RPC ("TakeDamage", PhotonTargets.AllBuffered, damage);
+				teamMember.GetComponent <PhotonView> ().RPC ("TakeDamage", PhotonTargets.AllBuffered, damage, PhotonNetwork.player.name);
 			}
 		} else {
 			Health healthOfObject = hit.collider.GetComponent<Health> () as Health;

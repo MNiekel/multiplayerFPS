@@ -22,6 +22,7 @@ public class Health : MonoBehaviour {
 		}
 	}
 
+	/*
 	void OnGUI() {
 		if (GetComponent <PhotonView> ().isMine && gameObject.tag == "Player") {
 			if (GUI.Button (new Rect (Screen.width - 100, 10, 80, 40), "Suicide")) {
@@ -30,6 +31,7 @@ public class Health : MonoBehaviour {
 			}
 		}
 	}
+	*/
 
 	[RPC]
 	public void TakeDamage (float damage) {
@@ -40,18 +42,27 @@ public class Health : MonoBehaviour {
 		}
 	}
 
-	public void Die () {
+	[RPC]
+	public void TakeDamage (float damage, string shooter) {
+		currentHitPoints -= damage;
+		
+		if (currentHitPoints <= 0) {
+			Die (shooter);
+		}
+	}
+
+	private void Die (string killer = "") {
 		if (gameObject.tag == "Exploder") {
 			fxManager.GetComponent <PhotonView> ().RPC("ExplosionFX", PhotonTargets.All,
 			                                           transform.position);
 		}
-
+		
 		if (GetComponent <PhotonView> ().instantiationId == 0) {
 			Destroy (gameObject);
 		} else {
 			if (GetComponent <PhotonView> ().isMine) {
 				if (gameObject.tag == "Player") {
-					networkManager.AddChatMessage(PhotonNetwork.player.name + " has died...");
+					networkManager.AddChatMessage(killer +" has killed "+ PhotonNetwork.player.name);
 					networkManager.worldCamera.SetActive (true);
 					networkManager.respawnTimer = 3f;
 				}
