@@ -114,7 +114,8 @@ public class NetworkManager : MonoBehaviour {
 
 	void OnJoinedLobby () {
 		Debug.Log ("Joined lobby");
-		PhotonNetwork.JoinRandomRoom ();
+		RoomOptions roomOptions = new RoomOptions() { isVisible = false, maxPlayers = 8 };
+		PhotonNetwork.JoinOrCreateRoom ("Nez FPS", roomOptions, TypedLobby.Default);
 	}
 
 	void OnPhotonRandomJoinFailed () {
@@ -123,21 +124,18 @@ public class NetworkManager : MonoBehaviour {
 	}
 
 	void OnJoinedRoom () {
-		Debug.Log ("Joined room");
+		Debug.Log ("Joined room " +PhotonNetwork.room.name);
 		connecting = false;
 		AddChatMessage (PhotonNetwork.player.name + " has entered the room");
 
 		if (PhotonNetwork.isMasterClient) {
 			SpawnSceneObjects();
 		}
-		AutoTeamSelect ();
-		SpawnPlayer ();
-	}
 
-	void OnLeftRoom() {
-		Debug.Log ("Left room");
-		connecting = true;
-		PhotonNetwork.LoadLevel ("scene01");
+		if (!PhotonNetwork.offlineMode) {
+			AutoTeamSelect ();
+		}
+		SpawnPlayer ();
 	}
 
 	void SpawnPlayer () {
