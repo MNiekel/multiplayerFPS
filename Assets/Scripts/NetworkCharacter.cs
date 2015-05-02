@@ -42,8 +42,6 @@ public class NetworkCharacter : Photon.MonoBehaviour {
 		} else {
 			transform.position = Vector3.Lerp (transform.position, realPosition, smoothing);
 			transform.rotation = Quaternion.Lerp (transform.rotation, realRotation, smoothing);
-			//transform.position =  realPosition;
-			//transform.rotation = realRotation;
 		}
 	}
 	
@@ -68,11 +66,6 @@ public class NetworkCharacter : Photon.MonoBehaviour {
 	}
 
 	private void DoLocalMovement() {
-		/*
-		if (direction.magnitude > 1) {
-			direction = direction.normalized;
-		}
-		*/
 
 		Vector3 moveDistance = direction * speed * Time.deltaTime;
 

@@ -6,7 +6,6 @@ public class PlayerMovement : MonoBehaviour {
 	// Only enabled for local player! Reads input from local player and pass results to NetworkCharacter
 	private NetworkCharacter networkCharacter;
 
-
 	void Start () {
 		networkCharacter = GetComponent <NetworkCharacter> ();
 	}
