@@ -3,54 +3,35 @@ using System.Collections;
 
 public class PlayerMovement : MonoBehaviour {
 
-	// Only enabled for local player!
-
-	float speed = 10f;
-	float jumpSpeed = 5f;
-	Vector3 direction = Vector3.zero;
-
+	// Only enabled for local player! Reads input from local player and pass results to NetworkCharacter
 	private CharacterController cc;
 	private Animator anim;
-	private float verticalVelocity = 0f;
+	private NetworkCharacter networkCharacter;
+
 
 	void Start () {
-		cc = GetComponent<CharacterController> ();
+		networkCharacter = GetComponent <NetworkCharacter> ();
 		anim = GetComponent<Animator> ();
 	}
 
 	void Update () {
 
-		direction = transform.rotation * new Vector3 (Input.GetAxis ("Horizontal"), 0, Input.GetAxis ("Vertical"));
+		networkCharacter.direction = transform.rotation * new Vector3 (Input.GetAxis ("Horizontal"), 0, Input.GetAxis ("Vertical"));
 
-		if (direction.magnitude > 1) {
-			direction = direction.normalized;
+		if (networkCharacter.direction.magnitude > 1) {
+			networkCharacter.direction = networkCharacter.direction.normalized;
 		}
 
-		anim.SetFloat ("Speed", direction.magnitude);
+		anim.SetFloat ("Speed", networkCharacter.direction.magnitude);
 
-		if (cc.isGrounded) {
-			anim.SetBool ("Jump", false);
-			if (Input.GetButton ("Jump")) {
-				verticalVelocity = jumpSpeed;
-				anim.SetBool ("Jump", true);
-			} else {
-				verticalVelocity = 0;
-			}
+		if (Input.GetButton ("Jump")) {
+			networkCharacter.isJumping = true;
+		} else {
+			networkCharacter.isJumping = false;
 		}
 
 		if (Input.GetKeyDown (KeyCode.Escape)) {
 			GetComponent <PhotonView> ().RPC ("TakeDamage", PhotonTargets.AllBuffered, 100f, PhotonNetwork.player.name);
 		}
-	}
-
-	// Called once per physics loop
-	// Do ALL movement and physics stuff here
-	void FixedUpdate () {
-		Vector3 moveDistance = direction * speed * Time.deltaTime;
-
-		verticalVelocity += Physics.gravity.y * Time.deltaTime;
-
-		moveDistance.y = verticalVelocity * Time.deltaTime;
-		cc.Move (moveDistance);
 	}
 }

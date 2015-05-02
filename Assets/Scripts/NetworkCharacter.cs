@@ -2,12 +2,24 @@
 using System.Collections;
 
 public class NetworkCharacter : Photon.MonoBehaviour {
-	
+
+	// for remote characters
 	Vector3 realPosition = Vector3.zero;
 	Quaternion realRotation = Quaternion.identity;
-	
-	public float smoothing = 0.01f;
+
+	// for local characters
+	public float speed = 10f;
+	public float jumpSpeed = 5f;
+
+	[System.NonSerialized]
+	public Vector3 direction = Vector3.zero;
+	[System.NonSerialized]
+	public bool isJumping = false;
+
+	private float verticalVelocity = 0f;
+	private float smoothing = 0.02f;
 	private Animator anim;
+	private CharacterController characterController;
 	
 	void Start () {
 		CacheComponents();
@@ -17,11 +29,18 @@ public class NetworkCharacter : Photon.MonoBehaviour {
 		if (anim == null) {
 			anim = GetComponent<Animator> ();
 		}
+		if (characterController == null) {
+			characterController = GetComponent<CharacterController> ();
+		}
 	}
-	
-	void Update () {
-		if (!photonView.isMine) {
-			transform.position = Vector3.Lerp(transform.position, realPosition, smoothing);
+
+	// Called once per physics loop
+	// Do ALL movement and physics stuff here
+	void FixedUpdate () {
+		if (photonView.isMine) {
+			DoLocalMovement ();
+		} else {
+			transform.position = Vector3.Lerp (transform.position, realPosition, smoothing);
 			transform.rotation = Quaternion.Lerp (transform.rotation, realRotation, smoothing);
 		}
 	}
@@ -44,5 +63,14 @@ public class NetworkCharacter : Photon.MonoBehaviour {
 			anim.SetBool("Jump", (bool) stream.ReceiveNext());
 			anim.SetBool("Shooting", (bool) stream.ReceiveNext());
 		}
+	}
+
+	private void DoLocalMovement() {
+		Vector3 moveDistance = direction * speed * Time.deltaTime;
+		
+		verticalVelocity += Physics.gravity.y * Time.deltaTime;
+		
+		moveDistance.y = verticalVelocity * Time.deltaTime;
+		characterController.Move (moveDistance);
 	}
 }
