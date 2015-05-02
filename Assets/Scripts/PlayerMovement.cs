@@ -4,14 +4,11 @@ using System.Collections;
 public class PlayerMovement : MonoBehaviour {
 
 	// Only enabled for local player! Reads input from local player and pass results to NetworkCharacter
-	private CharacterController cc;
-	private Animator anim;
 	private NetworkCharacter networkCharacter;
 
 
 	void Start () {
 		networkCharacter = GetComponent <NetworkCharacter> ();
-		anim = GetComponent<Animator> ();
 	}
 
 	void Update () {
@@ -21,8 +18,6 @@ public class PlayerMovement : MonoBehaviour {
 		if (networkCharacter.direction.magnitude > 1) {
 			networkCharacter.direction = networkCharacter.direction.normalized;
 		}
-
-		anim.SetFloat ("Speed", networkCharacter.direction.magnitude);
 
 		if (Input.GetButton ("Jump")) {
 			networkCharacter.isJumping = true;
