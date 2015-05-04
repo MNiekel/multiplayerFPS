@@ -71,7 +71,7 @@ NavMeshSettings:
   m_BuildSettings:
     agentRadius: .5
     agentHeight: 2
-    agentSlope: 45
+    agentSlope: 41.2999992
     agentClimb: .400000006
     ledgeDropHeight: 0
     maxJumpAcrossDistance: 0
@@ -1333,6 +1333,45 @@ Light:
   m_ShadowAngle: 0
   m_IndirectIntensity: 1
   m_AreaSize: {x: 1, y: 1}
+--- !u!1 &1114486399
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1114486400}
+  - 114: {fileID: 1114486401}
+  m_Layer: 0
+  m_Name: Way Point
+  m_TagString: Untagged
+  m_Icon: {fileID: -1500306622, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1114486400
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1114486399}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -45.8199997, y: 1.25999999, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1541039682}
+  m_RootOrder: 0
+--- !u!114 &1114486401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1114486399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2525d0f1cc9c43d1884f0cced0fccd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1129263844
 GameObject:
   m_ObjectHideFlags: 0
@@ -1405,6 +1444,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1145872981}
   - 114: {fileID: 1145872982}
+  - 114: {fileID: 1145872983}
   m_Layer: 0
   m_Name: Spawn Point
   m_TagString: Spawn Point
@@ -1434,6 +1474,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 019eb5f33d7524179aca22df579fbcfd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1145872983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1145872980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2525d0f1cc9c43d1884f0cced0fccd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1156318696
@@ -1525,6 +1576,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1518235795}
+  - {fileID: 1541039682}
   m_Father: {fileID: 0}
   m_RootOrder: 4
 --- !u!1 &1262863762
@@ -1780,6 +1832,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1472865955}
   - 114: {fileID: 1472865956}
+  - 114: {fileID: 1472865957}
   m_Layer: 0
   m_Name: Spawn Point
   m_TagString: Spawn Point
@@ -1809,6 +1862,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 019eb5f33d7524179aca22df579fbcfd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1472865957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1472865954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2525d0f1cc9c43d1884f0cced0fccd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1518235794
@@ -1846,6 +1910,34 @@ Transform:
   - {fileID: 129882411}
   m_Father: {fileID: 1165043782}
   m_RootOrder: 0
+--- !u!1 &1541039681
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1541039682}
+  m_Layer: 0
+  m_Name: Way Points
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1541039682
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1541039681}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1114486400}
+  m_Father: {fileID: 1165043782}
+  m_RootOrder: 1
 --- !u!1 &1565897407
 GameObject:
   m_ObjectHideFlags: 0
@@ -2178,6 +2270,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1898860699}
   - 114: {fileID: 1898860700}
+  - 114: {fileID: 1898860701}
   m_Layer: 0
   m_Name: Spawn Point
   m_TagString: Spawn Point
@@ -2207,6 +2300,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 019eb5f33d7524179aca22df579fbcfd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1898860701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1898860698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2525d0f1cc9c43d1884f0cced0fccd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1987271894
