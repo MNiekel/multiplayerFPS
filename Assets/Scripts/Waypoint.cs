@@ -3,6 +3,8 @@ using System.Collections;
 
 public class Waypoint : MonoBehaviour {
 
+	public Waypoint[] connectedWaypoints;
+
 	// Use this for initialization
 	void Start () {
 	

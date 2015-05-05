@@ -8,6 +8,7 @@ public class BotMovement : MonoBehaviour {
 
 	private Waypoint[] waypoints;
 	private Waypoint targetWaypoint;
+	private float distance = 0;
 	
 	void Start () {
 		networkCharacter = GetComponent <NetworkCharacter> ();
@@ -17,15 +18,18 @@ public class BotMovement : MonoBehaviour {
 	}
 	
 	void Update () {
+		if (Vector3.Distance (transform.position, targetWaypoint.transform.position) < 1f) {
+			targetWaypoint = targetWaypoint.connectedWaypoints[ Random.Range (0, targetWaypoint.connectedWaypoints.Length)];
+		}
+
 		networkCharacter.direction = targetWaypoint.transform.position - transform.position;
 		networkCharacter.direction.y = 0;
 		networkCharacter.direction.Normalize ();
-
+		
 		transform.rotation = Quaternion.LookRotation (networkCharacter.direction);
 	}
 
 	private Waypoint FindClosestWaypoint () {
-		float distance = 0f;
 		Waypoint closestWaypoint = null;
 		foreach (Waypoint waypoint in waypoints) {
 			if (closestWaypoint == null || Vector3.Distance (transform.position, waypoint.transform.position) < distance) {
