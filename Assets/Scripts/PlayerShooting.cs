@@ -5,7 +5,7 @@ using System.Linq;
 public class PlayerShooting : MonoBehaviour {
 
 	public float fireRate = 0.5f;
-	public float shootingDistance;
+	public float shootingDistance = 50f;
 	public float damage = 50f;
 
 	//public NetworkManager networkManager;
@@ -50,7 +50,7 @@ public class PlayerShooting : MonoBehaviour {
 
 		Ray ray = new Ray (start.position, start.forward);
 
-		RaycastHit [] hits = Physics.RaycastAll (ray, 50f).OrderBy(h=>h.distance).ToArray();
+		RaycastHit [] hits = Physics.RaycastAll (ray, shootingDistance).OrderBy(h=>h.distance).ToArray();
 
 		if (hits.Length == 0) {
 			fxManager.GetComponent <PhotonView> ().RPC("ShootingFX", PhotonTargets.All,

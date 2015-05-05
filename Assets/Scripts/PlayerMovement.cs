@@ -8,7 +8,6 @@ public class PlayerMovement : MonoBehaviour {
 
 	void Start () {
 		networkCharacter = GetComponent <NetworkCharacter> ();
-
 	}
 
 	void Update () {

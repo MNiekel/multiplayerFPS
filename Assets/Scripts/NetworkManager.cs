@@ -9,6 +9,7 @@ public class NetworkManager : MonoBehaviour {
 
 	private float respawn = 0;
 	private SpawnPoint[] spawnPoints;
+	private Waypoint[] wayPoints;
 	private bool connecting = false;
 	private List<string> messages;
 	private int maxNumberOfMessages = 5;
@@ -20,6 +21,7 @@ public class NetworkManager : MonoBehaviour {
 			Debug.LogError ("No Spawnpoints!");
 		}
 		objectSpawner = GameObject.FindObjectOfType <Spawner> ();
+		wayPoints = FindObjectsOfType <Waypoint> ();
 		if (objectSpawner == null) {
 			Debug.LogError ("Could not find NetworkManager");
 		}
@@ -130,6 +132,7 @@ public class NetworkManager : MonoBehaviour {
 
 		if (PhotonNetwork.isMasterClient) {
 			SpawnSceneObjects();
+			SpawnBots ();
 		}
 
 		if (!PhotonNetwork.offlineMode) {
@@ -169,6 +172,13 @@ public class NetworkManager : MonoBehaviour {
 
 		myPlayer.transform.FindChild ("Main Camera").gameObject.SetActive (true);
 
+	}
+
+	private void SpawnBots () {
+		SpawnPoint spawnPoint = spawnPoints [Random.Range(spawnPoints.Length / 2, spawnPoints.Length)];
+		GameObject bot = PhotonNetwork.Instantiate ("Bot Controller",
+		                                                spawnPoint.transform.position, spawnPoint.transform.rotation, 0) as GameObject;
+		bot.GetComponent <BotMovement> ().enabled = true;
 	}
 
 	private void SpawnSceneObjects () {
