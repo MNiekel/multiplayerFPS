@@ -21,9 +21,9 @@ public class NetworkManager : MonoBehaviour {
 			Debug.LogError ("No Spawnpoints!");
 		}
 		objectSpawner = GameObject.FindObjectOfType <Spawner> ();
-		wayPoints = FindObjectsOfType <Waypoint> ();
+
 		if (objectSpawner == null) {
-			Debug.LogError ("Could not find NetworkManager");
+			Debug.LogError ("Could not find Spawner");
 		}
 
 		PhotonNetwork.player.name = PlayerPrefs.GetString ("USERNAME", "Sangatsuko");
@@ -131,6 +131,7 @@ public class NetworkManager : MonoBehaviour {
 		AddChatMessage (PhotonNetwork.player.name + " has entered the room");
 
 		if (PhotonNetwork.isMasterClient) {
+			Screen.showCursor = false;
 			SpawnSceneObjects();
 			SpawnBots ();
 		}
