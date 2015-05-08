@@ -130,21 +130,25 @@ public class NetworkCharacter : Photon.MonoBehaviour {
 			return;
 		}
 
-
-
 		Ray ray = new Ray (start.position, start.forward);
 		
 		RaycastHit [] hits = Physics.RaycastAll (ray, shootingDistance).OrderBy(h=>h.distance).ToArray();
 
-		for (int i = 0; i < hits.Length; i++) {
-			if (hits [i].transform != this.transform) {
-				fxManager.GetComponent <PhotonView> ().RPC("ShootingFX", PhotonTargets.All,
-				                                           start.position, hits [i].point);
-				Hit(hits [i]);
-				break;
+		if (hits.Length == 0) {
+			Vector3 endPosition = start.position + shootingDistance * start.forward.normalized;
+			fxManager.GetComponent <PhotonView> ().RPC ("ShootingFX", PhotonTargets.All,
+			                                           start.position, endPosition);
+		} else {
+			for (int i = 0; i < hits.Length; i++) {
+				if (hits [i].transform != this.transform) {
+					fxManager.GetComponent <PhotonView> ().RPC ("ShootingFX", PhotonTargets.All,
+					                                           start.position, hits [i].point);
+					Hit (hits [i]);
+					break;
+				}
 			}
 		}
-		
+
 		cooldown = fireRate;
 	}
 
