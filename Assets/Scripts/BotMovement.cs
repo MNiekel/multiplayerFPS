@@ -5,6 +5,7 @@ public class BotMovement : MonoBehaviour {
 
 	// Use this for initialization
 	private NetworkCharacter networkCharacter;
+	private BotAI botAI;
 
 	private Waypoint[] waypoints;
 	private Waypoint targetWaypoint;
@@ -12,6 +13,9 @@ public class BotMovement : MonoBehaviour {
 	
 	void Start () {
 		networkCharacter = GetComponent <NetworkCharacter> ();
+		botAI = GetComponent <BotAI> ();
+
+		networkCharacter.speed = botAI.movementSpeed;
 
 		waypoints = GameObject.FindObjectsOfType<Waypoint> ();
 		targetWaypoint = FindClosestWaypoint ();

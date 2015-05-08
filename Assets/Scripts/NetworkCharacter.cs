@@ -32,6 +32,7 @@ public class NetworkCharacter : Photon.MonoBehaviour {
 	private Animator anim;
 	private CharacterController characterController;
 	private FXManager fxManager;
+	private Transform start;
 	
 	void Start () {
 		CacheComponents();
@@ -47,6 +48,8 @@ public class NetworkCharacter : Photon.MonoBehaviour {
 		if (fxManager == null) {
 			fxManager = GameObject.FindObjectOfType <FXManager> ();
 		}
+
+		start = photonView.gameObject.transform.FindChild ("Main Camera");
 	}
 
 	// Called once per physics loop
@@ -127,7 +130,7 @@ public class NetworkCharacter : Photon.MonoBehaviour {
 			return;
 		}
 
-		Transform start = photonView.gameObject.transform.FindChild ("Main Camera");
+
 
 		Ray ray = new Ray (start.position, start.forward);
 		
