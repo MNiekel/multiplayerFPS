@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Linq;
 
 public class NetworkCharacter : Photon.MonoBehaviour {
 
@@ -8,18 +9,29 @@ public class NetworkCharacter : Photon.MonoBehaviour {
 	Quaternion realRotation = Quaternion.identity;
 
 	// for local characters
-	public float speed = 10f;
+	public float speed = 5f;
 	public float jumpSpeed = 5f;
 
 	[System.NonSerialized]
 	public Vector3 direction = Vector3.zero;
 	[System.NonSerialized]
 	public bool isJumping = false;
+	[System.NonSerialized]
+	public bool isShooting = false;
 
 	private float verticalVelocity = 0f;
 	private float smoothing = 0.4f;
+
+	private float cooldown = 0.0f;
+
+	// weapon stats
+	private float fireRate = 0.5f;
+	private float shootingDistance = 50.0f;
+	private float weaponDamage = 20.0f;
+
 	private Animator anim;
 	private CharacterController characterController;
+	private FXManager fxManager;
 	
 	void Start () {
 		CacheComponents();
@@ -31,6 +43,9 @@ public class NetworkCharacter : Photon.MonoBehaviour {
 		}
 		if (characterController == null) {
 			characterController = GetComponent<CharacterController> ();
+		}
+		if (fxManager == null) {
+			fxManager = GameObject.FindObjectOfType <FXManager> ();
 		}
 	}
 
@@ -44,7 +59,13 @@ public class NetworkCharacter : Photon.MonoBehaviour {
 			transform.rotation = Quaternion.Lerp (transform.rotation, realRotation, smoothing);
 		}
 	}
-	
+
+	void Update () {
+		if (photonView.isMine) {
+			cooldown -= Time.deltaTime;
+		}
+	}
+		
 	public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
 		CacheComponents ();
 
@@ -89,5 +110,53 @@ public class NetworkCharacter : Photon.MonoBehaviour {
 			}
 		}
 
+		if (isShooting) {
+			isShooting = false;
+			if (characterController.isGrounded && cooldown < 0) {
+				anim.SetBool ("Shooting", true);
+				Shoot ();
+			}
+		} else {
+			anim.SetBool ("Shooting", false);
+		}
+
+	}
+
+	private void Shoot() {
+		if (cooldown > 0) {
+			return;
+		}
+
+		Transform start = photonView.gameObject.transform.FindChild ("Main Camera");
+
+		Ray ray = new Ray (start.position, start.forward);
+		
+		RaycastHit [] hits = Physics.RaycastAll (ray, shootingDistance).OrderBy(h=>h.distance).ToArray();
+
+		for (int i = 0; i < hits.Length; i++) {
+			if (hits [i].transform != this.transform) {
+				fxManager.GetComponent <PhotonView> ().RPC("ShootingFX", PhotonTargets.All,
+				                                           start.position, hits [i].point);
+				Hit(hits [i]);
+				break;
+			}
+		}
+		
+		cooldown = fireRate;
+	}
+
+	private void Hit (RaycastHit hit) {
+		Debug.Log (photonView.name +" shot " + hit.collider.name);
+		if (hit.collider.tag == "Player") {
+			TeamMember teamMember = hit.collider.GetComponent <TeamMember> () as TeamMember;
+			if (teamMember.teamID != this.GetComponent <TeamMember> ().teamID || teamMember.teamID == 0) {
+				teamMember.GetComponent <PhotonView> ().RPC ("TakeDamage", PhotonTargets.AllBuffered, weaponDamage, PhotonNetwork.player.name);
+			}
+		} else {
+			Health healthOfObject = hit.collider.GetComponent<Health> () as Health;
+			if (healthOfObject != null) {
+				healthOfObject.GetComponent <PhotonView> ().RPC ("TakeDamage", PhotonTargets.AllBuffered, weaponDamage);
+			}
+		}
 	}
 }

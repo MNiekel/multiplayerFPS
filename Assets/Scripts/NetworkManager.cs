@@ -179,6 +179,7 @@ public class NetworkManager : MonoBehaviour {
 		GameObject bot = PhotonNetwork.Instantiate ("Bot Controller",
 		                                                spawnPoint.transform.position, spawnPoint.transform.rotation, 0) as GameObject;
 		bot.GetComponent <BotMovement> ().enabled = true;
+		bot.GetComponent <BotShooting> ().enabled = true;
 	}
 
 	private void SpawnSceneObjects () {

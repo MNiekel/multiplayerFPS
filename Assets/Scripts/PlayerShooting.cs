@@ -4,6 +4,25 @@ using System.Linq;
 
 public class PlayerShooting : MonoBehaviour {
 
+	// Only enabled for local player! Reads input from local player and pass results to NetworkCharacter
+	private NetworkCharacter networkCharacter;
+	
+	void Start () {
+		networkCharacter = GetComponent <NetworkCharacter> ();
+	}
+	
+	void Update () {
+		
+		if (Input.GetButton ("Fire1")) {
+			networkCharacter.isShooting = true;
+		} else {
+			networkCharacter.isShooting = false;
+		}
+
+	}
+}
+
+	/*
 	public float fireRate = 0.5f;
 	public float shootingDistance = 50f;
 	public float damage = 50f;
@@ -73,20 +92,4 @@ public class PlayerShooting : MonoBehaviour {
 
 		cooldown = fireRate;
 	}
-
-	private void Hit (RaycastHit hit) {
-		Debug.Log (PhotonNetwork.player.name +" shot " + hit.collider.name);
-		if (hit.collider.tag == "Player") {
-			TeamMember teamMember = hit.collider.GetComponent <TeamMember> () as TeamMember;
-			if (teamMember.teamID != this.GetComponent <TeamMember> ().teamID || teamMember.teamID == 0) {
-				teamMember.GetComponent <PhotonView> ().RPC ("TakeDamage", PhotonTargets.AllBuffered, damage, PhotonNetwork.player.name);
-			}
-		} else {
-			Health healthOfObject = hit.collider.GetComponent<Health> () as Health;
-			if (healthOfObject != null) {
-				healthOfObject.GetComponent <PhotonView> ().RPC ("TakeDamage", PhotonTargets.AllBuffered, damage);
-			}
-		}
-	}
-	
-}
+	*/

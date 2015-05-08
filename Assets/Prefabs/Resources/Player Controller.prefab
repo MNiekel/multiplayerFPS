@@ -2623,7 +2623,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6195e8a2c083c44a08ebbe9f3db4dcdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  smoothing: .100000001
+  speed: 10
+  jumpSpeed: 5
 --- !u!114 &11453262
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2636,7 +2637,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fireRate: .5
-  shootingDistance: 0
+  shootingDistance: 50
   damage: 50
 --- !u!114 &11463872
 MonoBehaviour:
