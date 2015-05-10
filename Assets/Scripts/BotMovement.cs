@@ -30,7 +30,7 @@ public class BotMovement : MonoBehaviour {
 		networkCharacter.direction.y = 0;
 		networkCharacter.direction.Normalize ();
 		
-		transform.rotation = Quaternion.LookRotation (networkCharacter.direction);
+		transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation (networkCharacter.direction), 0.1f);
 	}
 
 	private Waypoint FindClosestWaypoint () {

@@ -7,6 +7,7 @@ public class TeamMember : MonoBehaviour {
 	
 	[RPC]
 	public void SetTeamID(int ID) {
+		this.ID = ID;
 		SkinnedMeshRenderer meshRenderer = this.transform.GetComponentInChildren <SkinnedMeshRenderer>();
 		if (ID == 1) {
 			meshRenderer.material.color = Color.blue;

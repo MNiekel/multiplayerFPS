@@ -130,6 +130,8 @@ public class NetworkCharacter : Photon.MonoBehaviour {
 			return;
 		}
 
+		Debug.Log ("Fire!");
+
 		Ray ray = new Ray (start.position, start.forward);
 		
 		RaycastHit [] hits = Physics.RaycastAll (ray, shootingDistance).OrderBy(h=>h.distance).ToArray();
