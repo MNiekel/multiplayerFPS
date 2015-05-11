@@ -1322,9 +1322,8 @@ GameObject:
   - 143: {fileID: 14328800}
   - 95: {fileID: 9561868}
   - 114: {fileID: 11475262}
+  - 114: {fileID: 11469350}
   - 114: {fileID: 11482618}
-  - 114: {fileID: 11432152}
-  - 114: {fileID: 11490174}
   - 114: {fileID: 11497590}
   m_Layer: 0
   m_Name: Bot Controller
@@ -2574,17 +2573,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   jumpSpeed: 5
---- !u!114 &11432152
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 194786}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2647271d41bd64f5480f946e25857541, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &11463998
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2610,6 +2598,17 @@ MonoBehaviour:
   viewIdField: 0
   instantiationId: -1
   isRuntimeInstantiated: 0
+--- !u!114 &11469350
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 194786}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41e759075556d4c92b838c959d4268b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11475262
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2633,17 +2632,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6662927612da043d38309c29a319f017, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &11490174
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 194786}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bddb8d9785dd74d40abfb4259bd353dd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &11497590
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2656,7 +2644,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 4
-  shootingAccuracy: .5
+  shootingAccuracy: 1
+  aggroRange: 30
 --- !u!137 &13777912
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

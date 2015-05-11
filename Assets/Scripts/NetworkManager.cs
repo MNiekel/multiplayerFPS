@@ -179,8 +179,9 @@ public class NetworkManager : MonoBehaviour {
 		SpawnPoint spawnPoint = spawnPoints [Random.Range(spawnPoints.Length / 2, spawnPoints.Length)];
 		GameObject bot = PhotonNetwork.Instantiate ("Bot Controller",
 		                                                spawnPoint.transform.position, spawnPoint.transform.rotation, 0) as GameObject;
-		bot.GetComponent <BotMovement> ().enabled = true;
-		bot.GetComponent <BotShooting> ().enabled = true;
+		//bot.GetComponent <BotMovement> ().enabled = true;
+		//bot.GetComponent <BotShooting> ().enabled = true;
+		bot.GetComponent <BotControl> ().enabled = true;
 		bot.GetPhotonView ().name = "AI Bot";
 	}
 
