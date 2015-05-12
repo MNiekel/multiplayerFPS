@@ -61,7 +61,7 @@ public class BotControl : MonoBehaviour {
 			if (tm.transform.tag != "Player") {
 				continue;
 			}
-			
+
 			float distance = Vector3.Distance (transform.position, tm.transform.position);
 			
 			if (target == null || distance < Vector3.Distance (transform.position, target.position)) {

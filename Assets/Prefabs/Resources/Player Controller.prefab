@@ -1326,6 +1326,7 @@ GameObject:
   - 114: {fileID: 11453262}
   - 114: {fileID: 11475262}
   - 114: {fileID: 11482618}
+  - 114: {fileID: 11433372}
   m_Layer: 0
   m_Name: Player Controller
   m_TagString: Player
@@ -2625,6 +2626,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   jumpSpeed: 5
+--- !u!114 &11433372
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 194786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8657f57efc0b435d96d21dad88f8571, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  range: 50
+  fireRate: .5
+  damage: 50
 --- !u!114 &11453262
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2702,6 +2717,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitPoints: 100
+  explosionDamage: 20
 --- !u!114 &11482618
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -13,6 +13,7 @@ GameObject:
   - 64: {fileID: 6415082}
   - 114: {fileID: 11415082}
   - 114: {fileID: 11441212}
+  - 114: {fileID: 11424958}
   m_Layer: 0
   m_Name: Barrel
   m_TagString: Exploder
@@ -84,6 +85,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitPoints: 10
+  explosionDamage: 50
+--- !u!114 &11424958
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 115082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8657f57efc0b435d96d21dad88f8571, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  range: 5
+  fireRate: .5
+  damage: 100
 --- !u!114 &11441212
 MonoBehaviour:
   m_ObjectHideFlags: 1

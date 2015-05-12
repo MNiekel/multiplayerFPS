@@ -43,18 +43,29 @@ public class Health : MonoBehaviour {
 	}
 
 	[RPC]
-	public void TakeDamage (float damage, string shooter) {
+	public void TakeDamage (float damage, string killer) {
 		currentHitPoints -= damage;
 		
 		if (currentHitPoints <= 0) {
-			Die (shooter);
+			Die (killer);
 		}
 	}
 
 	private void Die (string killer = "") {
 		if (gameObject.tag == "Exploder") {
-			fxManager.GetComponent <PhotonView> ().RPC("ExplosionFX", PhotonTargets.All,
+			if (GetComponent <PhotonView>().isMine) {
+				fxManager.GetComponent <PhotonView> ().RPC("ExplosionFX", PhotonTargets.All,
 			                                           transform.position);
+
+				WeaponData weaponData = GetComponent <WeaponData> ();
+				TeamMember[] teamMembers = FindObjectsOfType<TeamMember> ();
+				foreach (TeamMember teamMember in teamMembers) {
+					if (Vector3.Distance(gameObject.transform.position, teamMember.transform.position) < weaponData.range) {
+
+						teamMember.GetComponent <PhotonView> ().RPC ("TakeDamage", PhotonTargets.AllBuffered, weaponData.damage, "Explosion");
+					}
+				}
+			}
 		}
 		
 		if (GetComponent <PhotonView> ().instantiationId == 0) {
@@ -65,7 +76,12 @@ public class Health : MonoBehaviour {
 					networkManager.AddChatMessage(killer +" has killed "+ PhotonNetwork.player.name);
 					networkManager.worldCamera.SetActive (true);
 					networkManager.respawnTimer = 3f;
+				} else {
+					if (gameObject.tag == "Bot") {
+						networkManager.AddChatMessage(killer +" has killed "+gameObject.GetPhotonView().name);
+					}
 				}
+
 				PhotonNetwork.Destroy (gameObject);
 			}
 		}

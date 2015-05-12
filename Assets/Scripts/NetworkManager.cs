@@ -39,6 +39,7 @@ public class NetworkManager : MonoBehaviour {
 				SpawnPlayer ();
 			}
 		}
+
 	}
 
 	void OnDestroy () {
@@ -133,7 +134,8 @@ public class NetworkManager : MonoBehaviour {
 		if (PhotonNetwork.isMasterClient) {
 			Screen.showCursor = false;
 			SpawnSceneObjects();
-			SpawnBot ();
+			SpawnBot ("Bad Ass Bot");
+			SpawnBot ("Big Bomber Bot");
 		}
 
 		if (!PhotonNetwork.offlineMode) {
@@ -175,14 +177,12 @@ public class NetworkManager : MonoBehaviour {
 
 	}
 
-	private void SpawnBot () {
+	private void SpawnBot (string name = "AI Bot") {
 		SpawnPoint spawnPoint = spawnPoints [Random.Range(spawnPoints.Length / 2, spawnPoints.Length)];
 		GameObject bot = PhotonNetwork.Instantiate ("Bot Controller",
 		                                                spawnPoint.transform.position, spawnPoint.transform.rotation, 0) as GameObject;
-		//bot.GetComponent <BotMovement> ().enabled = true;
-		//bot.GetComponent <BotShooting> ().enabled = true;
 		bot.GetComponent <BotControl> ().enabled = true;
-		bot.GetPhotonView ().name = "AI Bot";
+		bot.GetPhotonView ().name = name;
 	}
 
 	private void SpawnSceneObjects () {
@@ -192,6 +192,10 @@ public class NetworkManager : MonoBehaviour {
 		                                                "crate", new Vector3 (-60f, 0.5f, -7f));
 		objectSpawner.GetComponent <PhotonView> ().RPC ("SpawnSceneObject", PhotonTargets.All,
 		                                                "barrel", new Vector3 (60f, 0.5f, 7f));
+		objectSpawner.GetComponent <PhotonView> ().RPC ("SpawnSceneObject", PhotonTargets.All,
+		                                                "crate", new Vector3 (60f, 0.5f, 4f));
+		objectSpawner.GetComponent <PhotonView> ().RPC ("SpawnSceneObject", PhotonTargets.All,
+		                                                "barrel", new Vector3 (60f, 0.5f, 1f));
 		objectSpawner.GetComponent <PhotonView> ().RPC ("SpawnSceneObject", PhotonTargets.All,
 		                                                "crate", new Vector3 (60f, 0.5f, -7f));
 	}

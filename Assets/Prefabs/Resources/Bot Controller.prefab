@@ -1325,9 +1325,10 @@ GameObject:
   - 114: {fileID: 11469350}
   - 114: {fileID: 11482618}
   - 114: {fileID: 11497590}
+  - 114: {fileID: 11429260}
   m_Layer: 0
   m_Name: Bot Controller
-  m_TagString: Untagged
+  m_TagString: Bot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2573,6 +2574,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   jumpSpeed: 5
+--- !u!114 &11429260
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 194786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8657f57efc0b435d96d21dad88f8571, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  range: 50
+  fireRate: .5
+  damage: 50
 --- !u!114 &11463998
 MonoBehaviour:
   m_ObjectHideFlags: 1

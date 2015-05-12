@@ -24,15 +24,11 @@ public class NetworkCharacter : Photon.MonoBehaviour {
 
 	private float cooldown = 0.0f;
 
-	// weapon stats
-	private float fireRate = 0.5f;
-	private float shootingDistance = 50.0f;
-	private float weaponDamage = 20.0f;
-
 	private Animator anim;
 	private CharacterController characterController;
 	private FXManager fxManager;
 	private Transform start;
+	private WeaponData weaponData;
 	
 	void Start () {
 		CacheComponents();
@@ -50,6 +46,10 @@ public class NetworkCharacter : Photon.MonoBehaviour {
 		}
 
 		start = photonView.gameObject.transform.FindChild ("Main Camera");
+
+		if (weaponData == null) {
+			weaponData = GetComponent <WeaponData> ();
+		}
 	}
 
 	// Called once per physics loop
@@ -132,10 +132,10 @@ public class NetworkCharacter : Photon.MonoBehaviour {
 
 		Ray ray = new Ray (start.position, start.forward);
 		
-		RaycastHit [] hits = Physics.RaycastAll (ray, shootingDistance).OrderBy(h=>h.distance).ToArray();
+		RaycastHit [] hits = Physics.RaycastAll (ray, weaponData.range).OrderBy(h=>h.distance).ToArray();
 
 		if (hits.Length == 0) {
-			Vector3 endPosition = start.position + shootingDistance * start.forward.normalized;
+			Vector3 endPosition = start.position + weaponData.range * start.forward.normalized;
 			fxManager.GetComponent <PhotonView> ().RPC ("ShootingFX", PhotonTargets.All,
 			                                           start.position, endPosition);
 		} else {
@@ -149,20 +149,27 @@ public class NetworkCharacter : Photon.MonoBehaviour {
 			}
 		}
 
-		cooldown = fireRate;
+		cooldown = weaponData.fireRate;
 	}
 
 	private void Hit (RaycastHit hit) {
-		Debug.Log (photonView.name +" shot " + hit.collider.name);
+		string killer;
+
+		if (gameObject.tag == "Bot") {
+			killer = gameObject.GetPhotonView().name;
+		} else {
+			killer = PhotonNetwork.player.name;
+		}
+
 		if (hit.collider.tag == "Player") {
 			TeamMember teamMember = hit.collider.GetComponent <TeamMember> () as TeamMember;
 			if (teamMember.teamID != this.GetComponent <TeamMember> ().teamID || teamMember.teamID == 0) {
-				teamMember.GetComponent <PhotonView> ().RPC ("TakeDamage", PhotonTargets.AllBuffered, weaponDamage, PhotonNetwork.player.name);
+				teamMember.GetComponent <PhotonView> ().RPC ("TakeDamage", PhotonTargets.AllBuffered, weaponData.damage, killer);
 			}
 		} else {
 			Health healthOfObject = hit.collider.GetComponent<Health> () as Health;
 			if (healthOfObject != null) {
-				healthOfObject.GetComponent <PhotonView> ().RPC ("TakeDamage", PhotonTargets.AllBuffered, weaponDamage);
+				healthOfObject.GetComponent <PhotonView> ().RPC ("TakeDamage", PhotonTargets.AllBuffered, weaponData.damage, killer);
 			}
 		}
 	}
