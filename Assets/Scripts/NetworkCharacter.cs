@@ -173,4 +173,25 @@ public class NetworkCharacter : Photon.MonoBehaviour {
 			}
 		}
 	}
+
+	void OnTriggerEnter (Collider collider) {
+
+		if (collider.tag == "Weapon") {
+			Debug.Log ("Picking up new weapon: " + collider.name);
+			WeaponData weaponData = GetComponent<WeaponData> ();
+			WeaponData newWeaponData = collider.GetComponent<WeaponData> ();
+			weaponData.range = newWeaponData.range;
+			weaponData.fireRate = newWeaponData.fireRate;
+			weaponData.damage = newWeaponData.damage;
+
+			if (collider.GetComponent <PhotonView> ().instantiationId == 0) {
+				Destroy (collider.gameObject);
+			} else {
+				if (collider.GetComponent <PhotonView> ().isMine) {
+					
+					PhotonNetwork.Destroy (collider.gameObject);
+				}
+			}
+		}
+	}
 }

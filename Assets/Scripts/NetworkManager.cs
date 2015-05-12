@@ -198,6 +198,10 @@ public class NetworkManager : MonoBehaviour {
 		                                                "barrel", new Vector3 (60f, 0.5f, 1f));
 		objectSpawner.GetComponent <PhotonView> ().RPC ("SpawnSceneObject", PhotonTargets.All,
 		                                                "crate", new Vector3 (60f, 0.5f, -7f));
+		objectSpawner.GetComponent <PhotonView> ().RPC ("SpawnSceneObject", PhotonTargets.All,
+		                                                "shotgun", new Vector3 (95f, 1f, 0f));
+		objectSpawner.GetComponent <PhotonView> ().RPC ("SpawnSceneObject", PhotonTargets.All,
+		                                                "shotgun", new Vector3 (-95f, 1f, 0f));
 	}
 
 	private void AutoTeamSelect () {
