@@ -22,17 +22,6 @@ public class Health : MonoBehaviour {
 		}
 	}
 
-	/*
-	void OnGUI() {
-		if (GetComponent <PhotonView> ().isMine && gameObject.tag == "Player") {
-			if (GUI.Button (new Rect (10, 20, 60, 20), "Suicide")) {
-				Debug.Log (PhotonNetwork.player.name + " commits suicide");
-				Die ();
-			}
-		}
-	}
-	*/
-
 	[RPC]
 	public void TakeDamage (float damage) {
 		currentHitPoints -= damage;
@@ -45,7 +34,7 @@ public class Health : MonoBehaviour {
 	[RPC]
 	public void TakeDamage (float damage, string killer) {
 		currentHitPoints -= damage;
-		
+
 		if (currentHitPoints <= 0) {
 			Die (killer);
 		}

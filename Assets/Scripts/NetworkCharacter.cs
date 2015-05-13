@@ -29,6 +29,7 @@ public class NetworkCharacter : Photon.MonoBehaviour {
 	private FXManager fxManager;
 	private Transform start;
 	private WeaponData weaponData;
+	private Health health;
 	
 	void Start () {
 		CacheComponents();
@@ -49,6 +50,10 @@ public class NetworkCharacter : Photon.MonoBehaviour {
 
 		if (weaponData == null) {
 			weaponData = GetComponent <WeaponData> ();
+		}
+
+		if (health == null) {
+			health = GetComponent <Health> ();
 		}
 	}
 
@@ -175,6 +180,11 @@ public class NetworkCharacter : Photon.MonoBehaviour {
 	}
 
 	void OnTriggerEnter (Collider collider) {
+		if (!photonView.isMine) {
+			return;
+		}
+
+		Debug.Log ("Collision!");
 
 		if (collider.tag == "Weapon") {
 			Debug.Log ("Picking up new weapon: " + collider.name);
@@ -184,14 +194,16 @@ public class NetworkCharacter : Photon.MonoBehaviour {
 			weaponData.fireRate = newWeaponData.fireRate;
 			weaponData.damage = newWeaponData.damage;
 
-			if (collider.GetComponent <PhotonView> ().instantiationId == 0) {
-				Destroy (collider.gameObject);
-			} else {
-				if (collider.GetComponent <PhotonView> ().isMine) {
-					
-					PhotonNetwork.Destroy (collider.gameObject);
-				}
-			}
+			newWeaponData.GetComponent<PhotonView> ().RPC ("DestroyObject", PhotonTargets.All);
+		}
+
+		if (collider.tag == "Pick Up") {
+			Health health = GetComponent<Health> ();
+			PickupData pickupData = collider.GetComponent<PickupData> ();
+
+			health.GetComponent <PhotonView> ().RPC ("TakeDamage", PhotonTargets.All, -pickupData.health, "");
+
+			pickupData.GetComponent<PhotonView> ().RPC ("DestroyObject", PhotonTargets.All);
 		}
 	}
 }

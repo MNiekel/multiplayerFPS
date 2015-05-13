@@ -41,4 +41,5 @@ MonoBehaviour:
   - SpawnSceneObject
   - SetTeamID
   - DieRPC
+  - DestroyObject
   DisableAutoOpenWizard: 0
