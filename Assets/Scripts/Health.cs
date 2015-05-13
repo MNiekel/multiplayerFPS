@@ -79,6 +79,7 @@ public class Health : MonoBehaviour {
 				} else {
 					if (gameObject.tag == "Bot") {
 						networkManager.AddChatMessage(killer +" has killed "+gameObject.GetPhotonView().name);
+						networkManager.botRespawnTimer = 3f;
 					}
 				}
 
@@ -86,4 +87,5 @@ public class Health : MonoBehaviour {
 			}
 		}
 	}
+
 }

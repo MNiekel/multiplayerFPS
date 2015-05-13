@@ -8,6 +8,7 @@ public class NetworkManager : MonoBehaviour {
 	public GameObject worldCamera;
 
 	private float respawn = 0;
+	private float respawnBot = 0;
 	private SpawnPoint[] spawnPoints;
 	private Waypoint[] wayPoints;
 	private bool connecting = false;
@@ -37,6 +38,14 @@ public class NetworkManager : MonoBehaviour {
 
 			if (respawn <= 0) {
 				SpawnPlayer ();
+			}
+		}
+
+		if (respawnBot > 0) {
+			respawnBot -= Time.deltaTime;
+			
+			if (respawnBot <= 0) {
+				SpawnBot ();
 			}
 		}
 
@@ -248,6 +257,11 @@ public class NetworkManager : MonoBehaviour {
 	public float respawnTimer {
 		get { return respawn; }
 		set { respawn = value; }
+	}
+
+	public float botRespawnTimer {
+		get { return respawnBot; }
+		set { respawnBot = value; }
 	}
 	
 	public void AddChatMessage (string message) {

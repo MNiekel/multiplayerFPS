@@ -164,12 +164,12 @@ public class NetworkCharacter : Photon.MonoBehaviour {
 		if (hit.collider.tag == "Player") {
 			TeamMember teamMember = hit.collider.GetComponent <TeamMember> () as TeamMember;
 			if (teamMember.teamID != this.GetComponent <TeamMember> ().teamID || teamMember.teamID == 0) {
-				teamMember.GetComponent <PhotonView> ().RPC ("TakeDamage", PhotonTargets.AllBuffered, weaponData.damage, killer);
+				teamMember.GetComponent <PhotonView> ().RPC ("TakeDamage", PhotonTargets.All, weaponData.damage, killer);
 			}
 		} else {
 			Health healthOfObject = hit.collider.GetComponent<Health> () as Health;
 			if (healthOfObject != null) {
-				healthOfObject.GetComponent <PhotonView> ().RPC ("TakeDamage", PhotonTargets.AllBuffered, weaponData.damage, killer);
+				healthOfObject.GetComponent <PhotonView> ().RPC ("TakeDamage", PhotonTargets.All, weaponData.damage, killer);
 			}
 		}
 	}
