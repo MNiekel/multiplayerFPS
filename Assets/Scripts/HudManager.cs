@@ -9,7 +9,7 @@ public class HudManager : MonoBehaviour {
 	public Slider healthBar;
 	public Image fillImage;
 	public Image crossHair;
-	
+
 	void Update () {
 		if (myPlayer) {
 			healthBar.gameObject.SetActive (true);
