@@ -184,8 +184,6 @@ public class NetworkCharacter : Photon.MonoBehaviour {
 			return;
 		}
 
-		Debug.Log ("Collision!");
-
 		if (collider.tag == "Weapon") {
 			Debug.Log ("Picking up new weapon: " + collider.name);
 			WeaponData weaponData = GetComponent<WeaponData> ();
@@ -198,6 +196,7 @@ public class NetworkCharacter : Photon.MonoBehaviour {
 		}
 
 		if (collider.tag == "Pick Up") {
+			Debug.Log ("Picking up health kit");
 			Health health = GetComponent<Health> ();
 			PickupData pickupData = collider.GetComponent<PickupData> ();
 

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class NetworkManager : MonoBehaviour {
@@ -8,13 +9,24 @@ public class NetworkManager : MonoBehaviour {
 	public GameObject worldCamera;
 
 	private float respawn = 0;
-	private float respawnBot = 0;
+
+	public int numberOfBots = 2;
+	[System.NonSerialized]
+	public float[] respawnBots;
+
 	private SpawnPoint[] spawnPoints;
 	private Waypoint[] wayPoints;
 	private bool connecting = false;
 	private List<string> messages;
 	private int maxNumberOfMessages = 5;
 	private Spawner objectSpawner;
+
+	private GameObject myPlayer;
+	private bool gameStarted = false;
+
+	public Slider healthBar;
+	public Image fillImage;
+	public Image crossHair;
 
 	void Start () {
 		spawnPoints = FindObjectsOfType <SpawnPoint> ();
@@ -30,9 +42,22 @@ public class NetworkManager : MonoBehaviour {
 		PhotonNetwork.player.name = PlayerPrefs.GetString ("USERNAME", "Sangatsuko");
 
 		messages = new List<string> (maxNumberOfMessages);
+
+		respawnBots = new float[numberOfBots];
 	}
 
 	void Update () {
+		if (myPlayer) {
+			healthBar.gameObject.SetActive (true);
+			crossHair.gameObject.SetActive (true);
+			Health health = myPlayer.GetComponent<Health> () as Health;
+			healthBar.value = health.currentHitPoints / health.maxHitPoints * 100;
+			fillImage.color = Color.Lerp (Color.red, Color.green, health.currentHitPoints / health.maxHitPoints);
+		} else {
+			healthBar.gameObject.SetActive (false);
+			crossHair.gameObject.SetActive (false);
+		}
+
 		if (respawn > 0) {
 			respawn -= Time.deltaTime;
 
@@ -41,14 +66,15 @@ public class NetworkManager : MonoBehaviour {
 			}
 		}
 
-		if (respawnBot > 0) {
-			respawnBot -= Time.deltaTime;
-			
-			if (respawnBot <= 0) {
-				SpawnBot ();
+		for (int i = 0; i < numberOfBots; i++) {
+			if (respawnBots[i] > 0) {
+				respawnBots[i] -= Time.deltaTime;
+
+				if (respawnBots[i] <= 0) {
+					SpawnBot (i);
+				}
 			}
 		}
-
 	}
 
 	void OnDestroy () {
@@ -60,9 +86,9 @@ public class NetworkManager : MonoBehaviour {
 	}
 
 	void OnGUI () {
-		GUILayout.Label (PhotonNetwork.connectionStateDetailed.ToString ());
-
-
+		if (!gameStarted) {
+			GUILayout.Label (PhotonNetwork.connectionStateDetailed.ToString ());
+		}
 
 		if (!PhotonNetwork.connected && !connecting) {
 
@@ -143,12 +169,12 @@ public class NetworkManager : MonoBehaviour {
 		if (PhotonNetwork.isMasterClient) {
 			Screen.showCursor = false;
 			SpawnSceneObjects();
-			SpawnBot ("Bad Ass Bot");
-			SpawnBot ("Big Bomber Bot");
 		}
 
 		if (!PhotonNetwork.offlineMode) {
 			AutoTeamSelect ();
+		} else {
+			SinglePlayerMode ();
 		}
 		SpawnPlayer ();
 	}
@@ -163,17 +189,17 @@ public class NetworkManager : MonoBehaviour {
 			teamID = (int)ID;
 		}
 
-		if (teamID == 1) {
+		if (teamID == 2) {
 			spawnPointNumber = Random.Range(spawnPoints.Length / 2, spawnPoints.Length);
 		} else {
-			if (teamID == 2) {
+			if (teamID == 1) {
 				spawnPointNumber = Random.Range(0, spawnPoints.Length / 2);
 			}
 		}
 
 		SpawnPoint spawnPoint = spawnPoints [spawnPointNumber];
 		
-		GameObject myPlayer = PhotonNetwork.Instantiate ("Player Controller",
+		myPlayer = PhotonNetwork.Instantiate ("Player Controller",
 		           spawnPoint.transform.position, spawnPoint.transform.rotation, 0) as GameObject;
 		worldCamera.SetActive (false);
 		myPlayer.GetComponent <PlayerMovement> ().enabled = true;
@@ -184,6 +210,22 @@ public class NetworkManager : MonoBehaviour {
 
 		myPlayer.transform.FindChild ("Main Camera").gameObject.SetActive (true);
 
+		gameStarted = true;
+
+	}
+
+	private void SpawnBot(int i) {
+		SpawnPoint spawnPoint = spawnPoints [Random.Range(spawnPoints.Length / 2, spawnPoints.Length)]; 
+		GameObject bot = PhotonNetwork.Instantiate ("Bot Controller",
+		                                            spawnPoint.transform.position, spawnPoint.transform.rotation, 0) as GameObject;
+		bot.GetComponent <BotControl> ().enabled = true;
+		BotAI botAI = bot.GetComponent <BotAI> () as BotAI;
+		botAI.botID = i;
+		if (i < botAI.names.Length) {
+			bot.GetPhotonView ().name = botAI.names [i];
+		} else {
+			bot.GetPhotonView ().name = "AI Bot " +i.ToString();
+		}
 	}
 
 	private void SpawnBot (string name = "AI Bot") {
@@ -260,11 +302,6 @@ public class NetworkManager : MonoBehaviour {
 		get { return respawn; }
 		set { respawn = value; }
 	}
-
-	public float botRespawnTimer {
-		get { return respawnBot; }
-		set { respawnBot = value; }
-	}
 	
 	public void AddChatMessage (string message) {
 		GetComponent<PhotonView> ().RPC ("AddChatMessage_RPC", PhotonTargets.AllBuffered, message);
@@ -279,4 +316,17 @@ public class NetworkManager : MonoBehaviour {
 		messages.Add (message);
 	}
 
+	private void SinglePlayerMode () {
+		int teamID = 1;
+		Hashtable setPlayerTeam = new Hashtable ();
+
+		setPlayerTeam.Add ("Team", teamID);
+		PhotonNetwork.player.SetCustomProperties (setPlayerTeam);
+
+		if (PhotonNetwork.isMasterClient) {
+			for (int i = 0; i < numberOfBots; i++) {
+				SpawnBot (i);
+			}
+		}
+	}
 }

@@ -4,8 +4,10 @@ using System.Collections;
 public class Health : MonoBehaviour {
 
 	public float hitPoints = 100f;
+	[System.NonSerialized]
+	public float currentHitPoints;
+	public float maxHitPoints = 200f;
 
-	private float currentHitPoints;
 	private FXManager fxManager;
 	private NetworkManager networkManager;
 
@@ -26,6 +28,10 @@ public class Health : MonoBehaviour {
 	public void TakeDamage (float damage) {
 		currentHitPoints -= damage;
 
+		if (currentHitPoints > maxHitPoints) {
+			currentHitPoints = maxHitPoints;
+		}
+
 		if (currentHitPoints <= 0) {
 			Die ();
 		}
@@ -34,6 +40,10 @@ public class Health : MonoBehaviour {
 	[RPC]
 	public void TakeDamage (float damage, string killer) {
 		currentHitPoints -= damage;
+
+		if (currentHitPoints > maxHitPoints) {
+			currentHitPoints = maxHitPoints;
+		}
 
 		if (currentHitPoints <= 0) {
 			Die (killer);
@@ -68,7 +78,7 @@ public class Health : MonoBehaviour {
 				} else {
 					if (gameObject.tag == "Bot") {
 						networkManager.AddChatMessage(killer +" has killed "+gameObject.GetPhotonView().name);
-						networkManager.botRespawnTimer = 3f;
+						networkManager.respawnBots[gameObject.GetComponent<BotAI> ().botID] = 3f;
 					}
 				}
 

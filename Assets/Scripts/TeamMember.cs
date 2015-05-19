@@ -20,5 +20,6 @@ public class TeamMember : MonoBehaviour {
 
 	public int teamID {
 		get { return ID; }
+		set { ID = value; }
 	}
 }

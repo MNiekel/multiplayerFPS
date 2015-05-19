@@ -23,8 +23,7 @@ public class BotControl : MonoBehaviour {
 	
 	void Update () {
 		DoMovement ();
-		networkCharacter.isShooting = DoTargeting ();
-
+		networkCharacter.isShooting = DoTargeting () && (Random.Range (0f, 1f) > 0.7f);
 	}
 
 	private void DoMovement () {
