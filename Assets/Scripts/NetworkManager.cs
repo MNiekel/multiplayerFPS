@@ -180,6 +180,11 @@ public class NetworkManager : MonoBehaviour {
 		SpawnPlayer ();
 	}
 
+	void OnDisconnectedFromPhoton() {
+		Debug.Log ("test");
+		Application.Quit();
+	}
+
 	void SpawnPlayer () {
 		int spawnPointNumber = Random.Range(0, spawnPoints.Length);
 

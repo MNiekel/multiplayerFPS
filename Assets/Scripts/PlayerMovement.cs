@@ -25,7 +25,17 @@ public class PlayerMovement : MonoBehaviour {
 		}
 
 		if (Input.GetKeyDown (KeyCode.Escape)) {
-			GetComponent <PhotonView> ().RPC ("TakeDamage", PhotonTargets.AllBuffered, 1000f, PhotonNetwork.player.name);
+			NetworkManager networkManager = GameObject.FindObjectOfType <NetworkManager> ();
+
+			networkManager.AddChatMessage(PhotonNetwork.player.name+ " has left the game");
+			networkManager.worldCamera.SetActive (true);
+			Screen.showCursor = true;
+			//PhotonNetwork.Destroy (gameObject);
+			PhotonNetwork.DestroyPlayerObjects (PhotonNetwork.player);
+			PhotonNetwork.RemoveRPCs(PhotonNetwork.player);
+			PhotonNetwork.Disconnect ();
+
+
 		}
 	}
 }

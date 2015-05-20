@@ -66,7 +66,6 @@ public class Health : MonoBehaviour {
 				}
 			}
 		}
-		Debug.Log ("in function Die");
 		if (GetComponent <PhotonView> ().instantiationId == 0) {
 			Destroy (gameObject);
 		} else {
