@@ -66,15 +66,17 @@ public class Health : MonoBehaviour {
 				}
 			}
 		}
-		
+		Debug.Log ("in function Die");
 		if (GetComponent <PhotonView> ().instantiationId == 0) {
 			Destroy (gameObject);
 		} else {
 			if (GetComponent <PhotonView> ().isMine) {
 				if (gameObject.tag == "Player") {
+
 					networkManager.AddChatMessage(killer +" has killed "+ PhotonNetwork.player.name);
 					networkManager.worldCamera.SetActive (true);
 					networkManager.respawnTimer = 3f;
+
 				} else {
 					if (gameObject.tag == "Bot") {
 						networkManager.AddChatMessage(killer +" has killed "+gameObject.GetPhotonView().name);

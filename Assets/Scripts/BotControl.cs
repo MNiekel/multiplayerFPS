@@ -14,20 +14,21 @@ public class BotControl : MonoBehaviour {
 	void Start () {
 		networkCharacter = GetComponent <NetworkCharacter> ();
 		botAI = GetComponent <BotAI> ();
-		
+
 		networkCharacter.speed = botAI.movementSpeed;
-		
+
 		waypoints = GameObject.FindObjectsOfType<Waypoint> ();
 		targetWaypoint = FindClosestWaypoint ();
 	}
 	
 	void Update () {
 		DoMovement ();
+
 		networkCharacter.isShooting = DoTargeting () && (Random.Range (0f, 1f) > 0.7f);
 	}
 
 	private void DoMovement () {
-		if (Vector3.Distance (transform.position, targetWaypoint.transform.position) < 3f) {
+		if (Vector3.Distance (transform.position, targetWaypoint.transform.position) < 2f) {
 			targetWaypoint = targetWaypoint.connectedWaypoints[ Random.Range (0, targetWaypoint.connectedWaypoints.Length)];
 		}
 		
@@ -37,7 +38,7 @@ public class BotControl : MonoBehaviour {
 		
 		transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation (networkCharacter.direction), 0.3f);
 	}
-	
+
 	private Waypoint FindClosestWaypoint () {
 		Waypoint closestWaypoint = null;
 		foreach (Waypoint waypoint in waypoints) {

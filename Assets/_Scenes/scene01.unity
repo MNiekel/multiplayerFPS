@@ -70,7 +70,7 @@ NavMeshSettings:
   m_ObjectHideFlags: 0
   m_BuildSettings:
     agentRadius: .5
-    agentHeight: 2
+    agentHeight: 1
     agentSlope: 36.2000008
     agentClimb: .400000006
     ledgeDropHeight: 0
@@ -610,7 +610,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &458635193
 Transform:
@@ -1549,7 +1549,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   worldCamera: {fileID: 737778240}
-  numberOfBots: 3
+  numberOfBots: 2
   healthBar: {fileID: 1928980695}
   fillImage: {fileID: 1765721996}
   crossHair: {fileID: 638378548}
@@ -3059,6 +3059,10 @@ Prefab:
       objectReference: {fileID: -1575646596, guid: d96627ece385a6948bf73bd2f93606ad,
         type: 3}
     - target: {fileID: 100006, guid: f7c5bca0b60824358a99c5ae8ec2d2e8, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 100008, guid: f7c5bca0b60824358a99c5ae8ec2d2e8, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 8
       objectReference: {fileID: 0}

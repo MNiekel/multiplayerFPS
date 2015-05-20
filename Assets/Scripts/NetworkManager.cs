@@ -71,7 +71,8 @@ public class NetworkManager : MonoBehaviour {
 				respawnBots[i] -= Time.deltaTime;
 
 				if (respawnBots[i] <= 0) {
-					SpawnBot (i);
+					//SpawnBot (i);
+					SpawnNavBot (i);
 				}
 			}
 		}
@@ -228,14 +229,24 @@ public class NetworkManager : MonoBehaviour {
 		}
 	}
 
-	private void SpawnBot (string name = "AI Bot") {
-		SpawnPoint spawnPoint = spawnPoints [Random.Range(spawnPoints.Length / 2, spawnPoints.Length)];
-		GameObject bot = PhotonNetwork.Instantiate ("Bot Controller",
-		                                                spawnPoint.transform.position, spawnPoint.transform.rotation, 0) as GameObject;
-		bot.GetComponent <BotControl> ().enabled = true;
-		bot.GetPhotonView ().name = name;
+	private void SpawnNavBot (int i) {
+		SpawnPoint spawnPoint = spawnPoints [Random.Range(spawnPoints.Length / 2 + 1, spawnPoints.Length)];
+		GameObject bot = PhotonNetwork.Instantiate ("NavBot Controller",
+		                                            spawnPoint.transform.position, spawnPoint.transform.rotation, 0) as GameObject;
+		if (!bot) {
+			Debug.Log ("bot is empty");
+		}
+		bot.GetComponent <NavMeshAgent> ().enabled = true;
+		bot.GetComponent <NavBotControl> ().enabled = true;
+		BotAI botAI = bot.GetComponent <BotAI> () as BotAI;
+		botAI.botID = i;
+		if (i < botAI.names.Length) {
+			bot.GetPhotonView ().name = botAI.names [i];
+		} else {
+			bot.GetPhotonView ().name = "AI Bot " +i.ToString();
+		}
 	}
-
+	
 	private void SpawnSceneObjects () {
 		objectSpawner.GetComponent <PhotonView> ().RPC ("SpawnSceneObject", PhotonTargets.All,
 		                                                "barrel", new Vector3 (-60f, 0.5f, 7f));
@@ -325,7 +336,8 @@ public class NetworkManager : MonoBehaviour {
 
 		if (PhotonNetwork.isMasterClient) {
 			for (int i = 0; i < numberOfBots; i++) {
-				SpawnBot (i);
+				//SpawnBot (i);
+				SpawnNavBot (i);
 			}
 		}
 	}
