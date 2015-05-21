@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class PlayerMovement : MonoBehaviour {
 
@@ -26,15 +27,8 @@ public class PlayerMovement : MonoBehaviour {
 
 		if (Input.GetKeyDown (KeyCode.Escape)) {
 			NetworkManager networkManager = GameObject.FindObjectOfType <NetworkManager> ();
-
-			networkManager.AddChatMessage(PhotonNetwork.player.name+ " has left the game");
-			networkManager.worldCamera.SetActive (true);
-			Screen.showCursor = true;
-			//PhotonNetwork.Destroy (gameObject);
-			PhotonNetwork.DestroyPlayerObjects (PhotonNetwork.player);
-			PhotonNetwork.RemoveRPCs(PhotonNetwork.player);
-			PhotonNetwork.Disconnect ();
-
+			//networkManager.AddChatMessage("Someone has left the game"); //does not work
+			networkManager.Leave(PhotonNetwork.player);
 
 		}
 	}

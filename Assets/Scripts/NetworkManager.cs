@@ -18,7 +18,7 @@ public class NetworkManager : MonoBehaviour {
 	private Waypoint[] wayPoints;
 	private bool connecting = false;
 	private List<string> messages;
-	private int maxNumberOfMessages = 5;
+	private int maxNumberOfMessages = 7;
 	private Spawner objectSpawner;
 
 	private GameObject myPlayer;
@@ -181,8 +181,7 @@ public class NetworkManager : MonoBehaviour {
 	}
 
 	void OnDisconnectedFromPhoton() {
-		Debug.Log ("test");
-		Application.Quit();
+		//Application.Quit();
 	}
 
 	void SpawnPlayer () {
@@ -287,13 +286,13 @@ public class NetworkManager : MonoBehaviour {
 			object ID;
 			if (player.customProperties.TryGetValue("Team", out ID)) {
 				if ((int)ID == 1) {
+					Debug.Log ("Found teamID 1");
 					players1++;
 				}
 				if ((int)ID == 2) {
+					Debug.Log ("Found teamID 2");
 					players2++;
 				}
-
-				Debug.Log(player.name +" has team ID "+ID.ToString());
 			}
 		}
 
@@ -345,5 +344,20 @@ public class NetworkManager : MonoBehaviour {
 				SpawnNavBot (i);
 			}
 		}
+	}
+
+	public void Leave (PhotonPlayer player) {
+		//AddChatMessage (player.name + " has left the game");
+		worldCamera.SetActive (true);
+		Screen.showCursor = true;
+		Hashtable setPlayerTeam = new Hashtable ();
+		setPlayerTeam.Add ("Team", 0);
+		player.SetCustomProperties (setPlayerTeam);
+		if (PhotonNetwork.offlineMode) {
+			PhotonNetwork.DestroyAll();
+		} else {
+			PhotonNetwork.DestroyPlayerObjects (player);
+		}
+		PhotonNetwork.Disconnect ();
 	}
 }

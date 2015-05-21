@@ -19,6 +19,7 @@ public class NavBotControl : MonoBehaviour {
 		agent = GetComponent <NavMeshAgent> ();
 		animator = GetComponent<Animator> ();
 		fxManager = GameObject.FindObjectOfType <FXManager> ();
+		player = GameObject.FindGameObjectWithTag ("Player");
 	}
 	
 	void Update () {
@@ -27,8 +28,10 @@ public class NavBotControl : MonoBehaviour {
 	}
 	
 	private void DoMovement () {
-		player = GameObject.FindGameObjectWithTag ("Player");
+
 		if (!player) {
+			Debug.Log ("Looking for player");
+			player = GameObject.FindGameObjectWithTag ("Player");
 			return;
 		}
 		Vector3 target = player.transform.position;
@@ -52,7 +55,7 @@ public class NavBotControl : MonoBehaviour {
 	}
 
 	private Vector3 Shoot (Vector3 target) {
-		Vector3 origin = GameObject.Find("Shooting Point").transform.position;
+		Vector3 origin = transform.Find("Shooting Point").position;
 		Vector3 shootingDirection = target - origin;
 		shootingDirection.y = 0;
 		shootingDirection.Normalize();
