@@ -30,17 +30,12 @@ public class NavBotControl : MonoBehaviour {
 	private void DoMovement () {
 
 		if (!player) {
-			Debug.Log ("Looking for player");
 			player = GameObject.FindGameObjectWithTag ("Player");
 			return;
 		}
 		Vector3 target = player.transform.position;
 		agent.SetDestination (target);
-		if (agent.remainingDistance <= agent.stoppingDistance) {
-			animator.SetFloat("Speed", 0f);
-		} else {
-			animator.SetFloat("Speed", 1f);
-		}
+		animator.SetFloat("Speed", agent.velocity.magnitude);
 
 		if (Vector3.Distance (transform.position, target) <= botAI.aggroRange) {
 			agent.updateRotation = false;
